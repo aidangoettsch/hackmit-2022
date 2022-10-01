@@ -23,6 +23,7 @@ interface PartialItem {
   productId: string,
   brandName: string,
   brandId: string,
+  imageUrl: string,
 }
 
 type Item = PartialItem & {
@@ -81,7 +82,7 @@ class Instacart {
   }
 
   async items(shop: Shop, ids: string[], zoneId: string, postalCode: string): Promise<Record<string, Item>> {
-    const res: Record<string, Item> = {}
+    const res: Record<string, PartialItem> = {}
 
     let i = 0
     while (i < ids.length) {
@@ -104,17 +105,25 @@ class Instacart {
       })
 
       for (const item of itemsRes.items) {
-        res[item.id] = item
+        res[item.id] = {
+          id: item.id,
+          name: item.name,
+          productId: item.productId,
+          brandId: item.brandId,
+          brandName: item.brandName,
+          size: item.size,
+          imageUrl: item.viewSection.itemImage.url
+        }
       }
 
       for (const item of itemPricesRes.itemPrices) {
-        res[item.id].priceString = item.viewSection.priceString
+        (res[item.id] as Item).priceString = item.viewSection.priceString
       }
 
       i += 10
     }
 
-    return res
+    return res as Record<string, Item>
   }
 }
 
