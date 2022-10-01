@@ -184,7 +184,7 @@ export default function HeroText() {
                 className={classes.highlight}
                 inherit
                 sx={{
-                  textShadow: "0px 0px 18px rgba(224,255,46,0.85)",
+                  textShadow: "0px 0px 14px rgba(224,255,46,0.75)",
                   flex: 1,
                   marginLeft: "-180px",
                 }}

@@ -21,3 +21,6 @@ later todo:
 - animate out
 
 - particles js on the fron tpage
+
+- shopping page read in cart data
+- sidebar link data
