@@ -15,3 +15,9 @@ later todo:
 - fonts maybe
 - tagline / short description
 - style landing
+
+- cascade animate in
+- animate in
+- animate out
+
+- particles js on the fron tpage
