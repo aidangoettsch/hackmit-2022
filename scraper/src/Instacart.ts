@@ -83,29 +83,35 @@ class Instacart {
   async items(shop: Shop, ids: string[], zoneId: string, postalCode: string): Promise<Record<string, Item>> {
     const res: Record<string, Item> = {}
 
-    const itemsRes = await this.scraper.graphQl({
-      operationName: "Items",
-      queryHash: "d3cea12689b7676f4a2d159a25928b520ec89a907d5f9ac673dbcc4bd9ac85f7",
-    }, {
-      ids
-    })
+    let i = 0
+    while (i < ids.length) {
+      const idSlice = ids.slice(i, i + 10)
+      const itemsRes = await this.scraper.graphQl({
+        operationName: "Items",
+        queryHash: "d3cea12689b7676f4a2d159a25928b520ec89a907d5f9ac673dbcc4bd9ac85f7",
+      }, {
+        ids: idSlice,
+      })
 
-    const itemPricesRes = await this.scraper.graphQl({
-      operationName: "ItemsPricesQuery",
-      queryHash: "9c3c87db5e918380532c64f0ae4de28d8e6d5765b5924fe5cb3cd853af7e38b6",
-    }, {
-      ids,
-      shopId: shop.id,
-      zoneId: zoneId,
-      postalCode: postalCode,
-    })
+      const itemPricesRes = await this.scraper.graphQl({
+        operationName: "ItemsPricesQuery",
+        queryHash: "9c3c87db5e918380532c64f0ae4de28d8e6d5765b5924fe5cb3cd853af7e38b6",
+      }, {
+        ids: idSlice,
+        shopId: shop.id,
+        zoneId: zoneId,
+        postalCode: postalCode,
+      })
 
-    for (const item of itemsRes.items) {
-      res[item.id] = item
-    }
+      for (const item of itemsRes.items) {
+        res[item.id] = item
+      }
 
-    for (const {id, priceString} of itemPricesRes.itemPrices) {
-      res[id].priceString = priceString
+      for (const item of itemPricesRes.itemPrices) {
+        res[item.id].priceString = item.viewSection.priceString
+      }
+
+      i += 10
     }
 
     return res

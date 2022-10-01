@@ -18,16 +18,10 @@ async function main() {
   ids.push(...(await instacart.search(wegmansDelivery, "cheese")))
   ids.push(...(await instacart.search(wegmansDelivery, "beef")))
 
-  const items = []
-
-  let i = 0
-  while (i < ids.length) {
-    items.push(...Object.values(await instacart.items(wegmansDelivery, ids.slice(i, i + 10), "392", "02139")))
-    i += 10
-  }
+  const items = Object.values(await instacart.items(wegmansDelivery, ids, "392", "02139"))
 
   const csvList = ["id,name,size,brandName,priceString", ...items.map(i =>
-    `${i.id},${i.name},${i.size},${i.brandName},${i.priceString}`
+    `${i.id},${i.name.replace(",", " ")},${i.size.replace(",", " ")},${i.brandName},${i.priceString.replace(",", " ")}`
   )]
 
   await writeFile("data/sample.csv", csvList.join("\n"))
