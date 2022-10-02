@@ -9,12 +9,12 @@ export interface ProductType {
   sustainable: boolean | string;
 }
 
-interface ExistingOrderType {
+export interface ExistingOrderType {
   time: string;
   count: number;
 }
 
-interface OrderItem {
+export interface OrderItem {
   id: string;
   quantity: number;
 }
