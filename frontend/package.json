@@ -25,6 +25,7 @@
     "embla-carousel-react": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-leaflet": "^4.1.0",
     "react-parallax-tilt": "^1.7.67",
     "react-particles": "^2.3.3",
     "react-router-dom": "^6.4.1",
@@ -61,5 +62,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.8.0"
   }
 }

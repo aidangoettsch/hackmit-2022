@@ -1,6 +1,7 @@
 import Scraper from "./Scraper";
 import Instacart from "./Instacart";
 import { writeFile } from "fs/promises";
+import { existsSync } from "fs";
 
 const s = new Scraper()
 const instacart = new Instacart(s)
@@ -21,16 +22,27 @@ async function main() {
   const departments = await instacart.categories(wegmansDelivery)
 
   for (const department of departments) {
-    ids.push(...(await instacart.categoryItems(wegmansDelivery, department)))
+    if (existsSync(`data/${department.slug}.json`)) {
+      continue
+    }
+    const ids = await instacart.categoryItems(wegmansDelivery, department)
+
+    const items = Object.values(await instacart.items(wegmansDelivery, ids, "392", "02139"))
+
+    for (const i of items) {
+      (i as any).category = department.slug
+    }
+
+    await writeFile(`data/${department.slug}.json`, JSON.stringify(items))
   }
-  const items = Object.values(await instacart.items(wegmansDelivery, ids, "392", "02139"))
 
-  const csvList = ["id,name,size,brandName,priceString", ...items.map(i =>
-    `${i.id},${i.name.replace(",", " ")},${i.size.replace(",", " ")},${i.brandName},${i.priceString.replace(",", " ")}`
-  )]
+  // const csvList = ["id,name,size,brandName,priceString", ...items.map(i =>
+  //   `${i.id},${i.name.replace(",", " ")},${i.size.replace(",", " ")},${i.brandName},${i.priceString.replace(",", " ")}`
+  // )]
 
-  await writeFile("data/sample.csv", csvList.join("\n"))
-  await writeFile("data/sample.json", JSON.stringify(items))
+  // await writeFile("data/sample.csv", csvList.join("\n"))
+
+  await s.close()
 }
 
 main().then()
