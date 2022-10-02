@@ -114,6 +114,7 @@ def findClosestK(dataset, vector, k):
     for key in dataset:
         distances.append((key, spatial.distance.cosine(dataset[key], vector)))
     distances.sort(key=lambda x: x[1])
+    if k >= len(distances): k = len(distances)
     return distances[:k]
 
 def alData():
@@ -132,7 +133,7 @@ def alData():
                     except:
                         continue
 
-def searchQuery(query, datapath, jsonPath):
+def searchQuery(query, datapath, jsonPath, k):
     '''used to search for a query in data and return the closest k results'''
 
     dictionary_en = set()
@@ -147,7 +148,7 @@ def searchQuery(query, datapath, jsonPath):
     tokens = tokenize(query, dictionary_en)
     vector = bag(tokens, vocab)
 
-    return findClosestK(dataset, vector, 10)
+    return findClosestK(dataset, vector, k)
 
                 
 
