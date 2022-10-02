@@ -103,9 +103,9 @@ export const getOrderStatus = async (id: string): Promise<ExistingOrderType> => 
         location: "bread",
         host: false,
       },
-    ]
+    ],
   };
-}
+};
 
 /**
  *
