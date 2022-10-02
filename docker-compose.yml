@@ -2,19 +2,25 @@ version: "3"
 services:
   backend:
     image: invincibot/hackmit-2022-backend
-    ports:
-      - "5000:5000"
+    build: ./backend
+    platform: "linux/amd64"
+  #    ports:
+#      - "5000:5000"
   frontend:
     image: invincibot/hackmit-2022-frontend
+    build: ./frontend
+    platform: "linux/amd64"
     ports:
       - "3000:3000"
     depends_on:
       - backend
   nginx:
     image: invincibot/hackmit-2022-nginx
+    build: ./nginx
     restart: unless-stopped
+    platform: "linux/amd64"
     ports:
       - "8080:8080"
     depends_on:
       - backend
-      - frontend
+#      - frontend

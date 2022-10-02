@@ -289,7 +289,7 @@ const OrderStep: FC<{
           />
           <Stack justify={"start"} spacing={0}>
             <Text size={"md"}>Sunday, October 2, 2022</Text>
-            <Text size={"md"}>12 PM to 2 PM</Text>
+            <Text size={"md"}>4 PM to 8 PM</Text>
           </Stack>
         </Group>
         <Group>
@@ -332,7 +332,7 @@ const OrderStep: FC<{
           />
           <Stack justify={"start"} spacing={0}>
             <Text size={"md"}>Sunday, October 2, 2022</Text>
-            <Text size={"md"}>5 AM to 12 PM</Text>
+            <Text size={"md"}>2 PM to 4 PM</Text>
           </Stack>
         </Group>
         <Group>
@@ -419,8 +419,8 @@ const OrderStep: FC<{
         <Button
           onClick={() => {
             if (orderIdx === 0) {
-              const start = new Date("2022-10-02T12:00-04:00");
-              const end = new Date("2022-10-02T16:00-04:00");
+              const start = new Date("2022-10-02T16:00-04:00");
+              const end = new Date("2022-10-02T20:00-04:00");
               setOrder({
                 ...order,
                 orderDay: start,
@@ -428,8 +428,8 @@ const OrderStep: FC<{
                 windowEnd: end,
               });
             } else if (orderIdx === 1) {
-              const start = new Date("2022-10-02T05:00-04:00");
-              const end = new Date("2022-10-02T12:00-04:00");
+              const start = new Date("2022-10-02T14:00-04:00");
+              const end = new Date("2022-10-02T16:00-04:00");
               setOrder({
                 ...order,
                 orderDay: start,

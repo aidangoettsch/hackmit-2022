@@ -90,7 +90,7 @@ export const getOrderStatus = async (id: string): Promise<ExistingOrderType> => 
   }
   return {
     time: new Date().toLocaleTimeString(),
-    status: 4,
+    status: 1,
     price: 3.99,
     users: [
       {
