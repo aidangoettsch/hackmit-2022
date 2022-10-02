@@ -17,6 +17,7 @@ import CategorySearch from "./components/CategorySearch";
 import HomeShopping from "./components/HomeShopping";
 import ItemSearch from "./components/ItemSearch";
 import CartWrapper from "./components/CartWrapper";
+import NFT from "./pages/NFT";
 import OrderStatus from "./pages/OrderStatus";
 
 function App() {
@@ -60,8 +61,8 @@ function App() {
           <Route path="/cart" element={<CartWrapper />}>
             <Route index element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />
+            <Route path="nft" element={<NFT />} />
           </Route>
-
           <Route path="/order/:order/:uid" element={<OrderStatus />} />
           <Route path="*" element={<NotFoundTitle />} />
           {renderFooter()}

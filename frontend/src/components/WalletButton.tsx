@@ -39,6 +39,7 @@ export const WalletButton = () => {
 		<Button
 			radius="xl"
 			variant="light"
+			size="xl"
 			sx={{height: 30}}
 			onClick={() => {
 				if (!provider) {
