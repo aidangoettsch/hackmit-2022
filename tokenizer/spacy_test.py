@@ -4,12 +4,12 @@ import spacy
 nlp = spacy.load("en_core_web_sm")
 
 # Process whole documents
-text = ("Wegmans Oven Roasted Off the Bone Turkey Breast")
+text = "Wegmans White Bread Made With Whole Grain"
 doc = nlp(text)
 
 # Analyze syntax
 print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
-print("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
+print("Adjectives:", [token.lemma_ for token in doc if token.pos_ == "ADJ"])
 
 # Find named entities, phrases and concepts
 for entity in doc.ents:
