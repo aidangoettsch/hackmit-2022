@@ -236,9 +236,10 @@ const OrderStep: FC<{
   setOrderIdx: (idx: number) => void;
   order: Order;
   setOrder: (order: Order) => void;
-  nextStep: () => void;
-}> = ({ active, orderIdx, setOrderIdx, order, setOrder, nextStep }) => {
+  onCheckout: () => void;
+}> = ({ active, orderIdx, setOrderIdx, order, setOrder, onCheckout }) => {
   const { classes } = useOrderStyles();
+
   if (!active) {
     const dayString =
       order.orderDay?.toLocaleDateString("en-US", {
@@ -437,7 +438,8 @@ const OrderStep: FC<{
                 windowEnd: end,
               });
             }
-            nextStep();
+
+            onCheckout()
           }}
           disabled={orderIdx === -1 && (!order.windowStart || !order.windowEnd)}
         >
@@ -505,7 +507,8 @@ export default () => {
         geoResp.data.features[0].properties.lat,
         geoResp.data.features[0].properties.lon,
       ]);
-    } catch (e) {}
+    } catch (e) {
+    }
   };
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
@@ -514,7 +517,7 @@ export default () => {
   const orderTax = orderSubtotal * 0.06;
   const total = orderSubtotal + orderTax + order.fee;
 
-  const { isEmpty, items, totalUniqueItems, updateItemQuantity, removeItem } =
+  const {isEmpty, items, totalUniqueItems, updateItemQuantity, removeItem} =
     useCart();
 
   const genOrderFromCart = (): OrderItem[] => {
@@ -526,17 +529,15 @@ export default () => {
     });
   };
 
-  React.useEffect(() => {
-    if (active == 3) {
-      console.log("done");
-      pushNewOrder(
-        order.windowEnd!.toLocaleTimeString(),
-        name,
-        locationString,
-        genOrderFromCart()
-      );
-    }
-  }, [active]);
+  const onCheckout = async () => {
+    const { userId, orderId } = await pushNewOrder(
+      order.windowEnd!.toLocaleTimeString(),
+      name,
+      locationString,
+      genOrderFromCart()
+    );
+    navigate(`/orders/${orderId}/${userId}`)
+  }
 
   const renderMap = () => {
     if (orderIdx === 0) {
@@ -747,7 +748,7 @@ export default () => {
                     setOrderIdx={setOrderIdx}
                     order={order}
                     setOrder={setOrder}
-                    nextStep={nextStep}
+                    onCheckout={onCheckout}
                   />
                 )
               }
