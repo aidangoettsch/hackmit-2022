@@ -33,10 +33,10 @@ export default () => {
           <Loader color="yellow" size="xl" />
         </Center>
       ) : products.map(({category, products}) =>
-        <>
+        <React.Fragment key={category}>
           <CategoryCarousel category={category} data={products} />
           <br />
-        </>
+        </React.Fragment>
       )}
     </>
   );
