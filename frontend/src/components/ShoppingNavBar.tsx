@@ -29,7 +29,7 @@ import {
   IconMedal,
 } from "@tabler/icons";
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
 // import { UserButton } from '../UserButton/UserButton';
 import { name } from "../util/constants";
@@ -183,6 +183,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function NavbarSearch() {
+  let navigate = useNavigate();
   let params = useParams();
   const category = params.category;
   const { classes } = useStyles();
@@ -209,7 +210,7 @@ export default function NavbarSearch() {
 
   const handleSearch = (e: any) => {
     console.log(e.search);
-    console.log(e);
+    navigate(`item/${e.search}`);
   };
 
   const mainLinks = links.map((link) => (
