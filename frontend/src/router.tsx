@@ -62,14 +62,13 @@ function App() {
 						<Route path="checkout" element={<Checkout/>}/>
 					</Route>
 					<Route path="/checkout" element={<Checkout/>}/>
-					<Route path="/order/:order" element={<OrderStatus />} />
+					<Route path="/order/:order/:uid" element={<OrderStatus />} />
 					<Route path="*" element={<NotFoundTitle/>}/>
 					{renderFooter()}
 				</Routes>
 			</Web3Context.Provider>
 		</>
 	);
->>>>>>> f369fd3e9f06c5bc824f8b6e803092c2bdfe7797
 }
 
 export default App;

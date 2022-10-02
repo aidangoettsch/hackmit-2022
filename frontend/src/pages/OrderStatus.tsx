@@ -6,11 +6,14 @@ import {IconArrowLeft, IconClock, IconCurrencyDollar} from "@tabler/icons";
 import {getOrderStatus} from "../util/getProductData";
 
 export default () => {
-  const {order} = useParams()
+  const {order, uid} = useParams()
   const navigate = useNavigate();
   const [orderStatus, setOrderStatus] = useState<ExistingOrderType | null>(null)
 
+  const uIdx: number | undefined = uid ? parseInt(uid) : undefined
+
   const host = orderStatus && orderStatus.users.find(u => u.host)
+  const isHost = orderStatus && orderStatus.users[uIdx!!].host
 
   useEffect(() => {
     if (!order) return;
@@ -80,11 +83,13 @@ export default () => {
           <Stepper.Step label="Delivered">
             <Text size={"xl"}>Your order is on the way!</Text>
             <Text size={"lg"}>Your order is being prepared and will be delivered soon</Text>
-            <Text size={"lg"}>Meet {host.name} at {host.location} for pick up!</Text>
+            {isHost ? <Text size={"lg"}>Get ready for your group to come pick up their order!</Text>
+              : <Text size={"lg"}>Meet {host.name} at {host.location} for pick up!</Text>}
           </Stepper.Step>
           <Stepper.Completed>
             <Text size={"xl"}>Your order has been delivered!</Text>
-            <Text size={"lg"}>Meet {host.name} at {host.location} for pick up!</Text>
+            {isHost ? <Text size={"lg"}>Get ready for your group to come pick up their order!</Text>
+              : <Text size={"lg"}>Meet {host.name} at {host.location} for pick up!</Text>}
           </Stepper.Completed>
         </Stepper>
       </Group>
@@ -93,12 +98,12 @@ export default () => {
       }}>
         <>
         <Text size={"xl"} weight={"bold"} mt={"lg"}>Your order group</Text>
-        {orderStatus.users.map(u =>
+        {orderStatus.users.map((u, idx) =>
           <Group key={u.name}>
             <Avatar radius="xl"/>
             <Stack spacing={2}>
-              <Text size={"lg"}>{u.name}{u.host ? " (host)" : ""}</Text>
-              <Text size={"xs"}>{u.location}</Text>
+              <Text size={"lg"}>{u.name}{u.host ? " (host)" : ""}{idx === uIdx ? " (you)" : ""}</Text>
+              {(u.host || idx === uIdx) && <Text size={"xs"}>{u.location}</Text>}
             </Stack>
           </Group>
         )}
