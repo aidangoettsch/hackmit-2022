@@ -15,6 +15,7 @@ import CategorySearch from "./components/CategorySearch";
 import HomeShopping from "./components/HomeShopping";
 import ItemSearch from "./components/ItemSearch";
 import CartWrapper from "./components/CartWrapper";
+import OrderStatus from "./pages/OrderStatus";
 
 function App() {
   const location = useLocation();
@@ -54,6 +55,7 @@ function App() {
           <Route path="checkout" element={<Checkout />} />
         </Route>
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order/:order" element={<OrderStatus />} />
         <Route path="*" element={<NotFoundTitle />} />
         {renderFooter()}
       </Routes>
