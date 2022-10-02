@@ -116,7 +116,7 @@ orders = []
 
 @app.route('/api/orders', methods=['GET'])
 def get_orders():
-    return json.dumps([{'time': order['time'], 'count': order['count']} for order in orders])
+    return json.dumps([{'time': order['time'], 'users': order['users']} for order in orders])
 
 
 @app.route('/api/orders', methods=['POST'])
@@ -124,17 +124,27 @@ def post_orders():
     data = request.get_json()
     time = data['time']
     items = data['items']
+    user = data['user']
+    location = data['location']
 
     for i in range(len(orders)):
         if orders[i]['time'] == time:
             orders[i]['items'].append(items)
-            orders[i]['count'] += 1
+            orders[i]['users'].append({
+                "name": user,
+                "location": location,
+                "host": False
+            })
             break
     else:
         orders.append({
             'time': time,
-            'items': [items],
-            'count': 1
+            'items': [*items],
+            'users': [{
+                "name": user,
+                "location": location,
+                "host": True
+            }],
         })
     return json.dumps("success")
 

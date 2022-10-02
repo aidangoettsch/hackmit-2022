@@ -26,6 +26,7 @@ interface PartialItem {
   id: string,
   name: string,
   size: string,
+  legacyV3Id: string,
   productId: string,
   brandName: string,
   brandId: string,
@@ -84,7 +85,7 @@ class Instacart {
       },
     })
 
-    return res.searchResultsPlacements.placements[0].content.itemIds
+    return res.searchResultsPlacements.placements[0].content.itemIds || res.searchResultsPlacements.placements[1].content.itemIds
   }
 
   async categories(shop: Shop) : Promise<Category[]> {
@@ -137,6 +138,7 @@ class Instacart {
         res[item.id] = {
           id: item.id,
           name: item.name,
+          legacyV3Id: item.legacyV3Id,
           productId: item.productId,
           brandId: item.brandId,
           brandName: item.brandName,
@@ -169,6 +171,52 @@ class Instacart {
     }
 
     return res as Record<string, Item>
+  }
+
+  async getCart(shop: Shop, addressId: string): Promise<string> {
+    await this.assertOk()
+
+    const res = await this.scraper.graphQl({
+      operationName: "ActiveCartId",
+      queryHash: "6218c9b050da9e2b65d16d9090ed45efe9d7d04e141ecd308046166a2d2d062c"
+    }, {
+      addressId,
+      retailerInventorySessionToken: shop.retailerInventorySessionToken,
+    })
+
+    return res.shopBasket.cartId
+  }
+
+  async addToCart(items: Record<string, number>): Promise<void> {
+    await this.assertOk()
+
+    const page = await this.scraper.context.newPage()
+    await page.goto("https://www.instacart.com/store/wegmans/storefront")
+
+    for (const [item, qty] of Object.entries(items)) {
+      await page.goto(`https://www.instacart.com/store/items/${item}`)
+      if (qty !== 1) {
+        await page.click('[aria-controls="quantity-dropdown"]')
+        await page.click('#option-custom')
+        await page.type('[placeholder="Enter an amount"]', qty.toString())
+      }
+
+      await page.click('.css-1fpvuyy-QuantityDropdownForm[data-testid="submit-button"]')
+    }
+
+    await page.close()
+  }
+
+  async checkout(): Promise<void> {
+    await this.assertOk()
+
+    const page = await this.scraper.context.newPage()
+    await page.goto("https://www.instacart.com/store/checkout_v3")
+
+    await page.click(".css-1saqw0d")
+    await page.click('[text="Continue"]')
+
+    await page.close()
   }
 }
 
