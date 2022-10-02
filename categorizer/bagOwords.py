@@ -46,8 +46,8 @@ def getVocab(file):
         return res
 
     print(file)
-
-    with open(file) as data_file:    
+    
+    with open(file, encoding='utf-8') as data_file:    
         data = json.load(data_file)
         for v in data:
             digest(v['name'])
@@ -91,8 +91,12 @@ def packData(file, dataPath):
 
     vocab = getVocab(file)
 
-    with open(file) as data_file:    
-        data = json.load(data_file)
+    #print(file)
+
+    
+    with open(file) as data_file:
+        
+        data = json.load(data_file, encoding='utf-8')
 
         with alive_bar(len(data)) as bar:
             for v in data:
@@ -123,7 +127,10 @@ def alData():
             filePath = subdir + os.path.sep + file
             if filePath.endswith(".json"):
                 if not os.path.exists(dataPath):
-                    packData(jsonPath, dataPath)
+                    try:
+                        packData(jsonPath, dataPath)
+                    except:
+                        continue
                 
 
 # dictionary_en = set()
