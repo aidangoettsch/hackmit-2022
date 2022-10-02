@@ -124,22 +124,13 @@ class Instacart {
 
     let i = 0
     while (i < ids.length) {
-      const idSlice = ids.slice(i, i + 10)
+      const idSlice = ids.slice(i, i + 100)
+
       const itemsRes = await this.scraper.graphQl({
         operationName: "Items",
         queryHash: "d3cea12689b7676f4a2d159a25928b520ec89a907d5f9ac673dbcc4bd9ac85f7",
       }, {
         ids: idSlice,
-      })
-
-      const itemPricesRes = await this.scraper.graphQl({
-        operationName: "ItemsPricesQuery",
-        queryHash: "9c3c87db5e918380532c64f0ae4de28d8e6d5765b5924fe5cb3cd853af7e38b6",
-      }, {
-        ids: idSlice,
-        shopId: shop.id,
-        zoneId: zoneId,
-        postalCode: postalCode,
       })
 
       for (const item of itemsRes.items) {
@@ -153,12 +144,28 @@ class Instacart {
           imageUrl: item.viewSection.itemImage.url
         }
       }
+      i += 100
+    }
+
+    i = 0
+    while (i < ids.length) {
+      const idSlice = ids.slice(i, i + 20)
+
+      const itemPricesRes = await this.scraper.graphQl({
+        operationName: "ItemsPricesQuery",
+        queryHash: "9c3c87db5e918380532c64f0ae4de28d8e6d5765b5924fe5cb3cd853af7e38b6",
+      }, {
+        ids: idSlice,
+        shopId: shop.id,
+        zoneId: zoneId,
+        postalCode: postalCode,
+      })
 
       for (const item of itemPricesRes.itemPrices) {
         (res[item.id] as Item).priceString = item.viewSection.priceString
       }
 
-      i += 10
+      i += 20
     }
 
     return res as Record<string, Item>
