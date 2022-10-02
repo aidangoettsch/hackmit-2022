@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5c0a2cb-1910-4bd9-8255-96f6f615c73d" name="Changes" comment="web3 moment 2">
+    <list default="true" id="d5c0a2cb-1910-4bd9-8255-96f6f615c73d" name="Changes" comment="sus recommendations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,6 +37,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="mu5v78qm" />
@@ -120,7 +121,16 @@
       <workItem from="1664693087044" duration="638000" />
       <workItem from="1664705906984" duration="893000" />
       <workItem from="1664711122517" duration="674000" />
+      <workItem from="1664712323762" duration="969000" />
     </task>
+    <task id="LOCAL-00001" summary="sus recommendations">
+      <created>1664712657807</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1664712657807</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,6 +150,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="web3 moment" />
     <MESSAGE value="web3 moment 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="web3 moment 2" />
+    <MESSAGE value="sus recommendations" />
+    <option name="LAST_COMMIT_MESSAGE" value="sus recommendations" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/hackmit_2022$main.coverage" NAME="main Coverage Results" MODIFIED="1664712597423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
   </component>
 </project>

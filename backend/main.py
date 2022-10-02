@@ -117,33 +117,27 @@ def get_similar():
     query = request.values.get("query")
     category = request.values.get("category")
     k = request.values.get("k", default=10, type=int)
-
+    similar_items = categorizer.bagOwords.searchQuery(query, category, k)
     p = []
-    k2 = k
-    while len(p) < k and k2 < 100:
-        similar_items = categorizer.bagOwords.searchQuery(query, category, k2)[k2-k:]
-        for item in similar_items:
-            sql = f"SELECT * FROM Items WHERE Id = '{item[0]}' AND Category = '{category}'"
-            print(sql)
-            cursor.execute(sql)
-            row = cursor.fetchone()
-            print(row[9])
-            if row[9] == "good":
-                p.append({
-                    "id": row[0],
-                    "name": row[1],
-                    "productId": row[2],
-                    "brandId": row[3],
-                    "brandName": row[4],
-                    "size": row[5],
-                    "imageUrl": row[6],
-                    "priceString": row[7],
-                    "category": row[8],
-                    "sustainable": row[9]
-                })
-                if len(p) == k:
-                    break
-        k2 += 10
+    for item in similar_items:
+        sql = f"SELECT * FROM Items WHERE Id = '{item[0]}' AND Category = '{category}'"
+        print(sql)
+        cursor.execute(sql)
+        row = cursor.fetchone()
+        print(row[9])
+        if row[9] == "good":
+            p.append({
+                "id": row[0],
+                "name": row[1],
+                "productId": row[2],
+                "brandId": row[3],
+                "brandName": row[4],
+                "size": row[5],
+                "imageUrl": row[6],
+                "priceString": row[7],
+                "category": row[8],
+                "sustainable": row[9]
+            })
     return json.dumps(p)
 
 
