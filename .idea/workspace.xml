@@ -5,56 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d5c0a2cb-1910-4bd9-8255-96f6f615c73d" name="Changes" comment="web3 moment">
-      <change beforePath="$PROJECT_DIR$/.idea/hackmit-2022.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/hackmit-2022.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_2_22__2_09_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_2_22__2_09_AM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_2_22__2_43_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_2_22__2_43_AM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_2_22__2_43_AM__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_2_22__2_43_AM__Changes_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/util/departments.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/bagOwords.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/bagOwords.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/2817-ready-meals.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/2817-ready-meals.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/3089-deli.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/3089-deli.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/3095-prepared-foods.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/3095-prepared-foods.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/857-miscellaneous-grocery.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/857-miscellaneous-grocery.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/alcohol.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/alcohol.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/baby.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/baby.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/baked-goods.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/baked-goods.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/baking-essentials.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/baking-essentials.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/beverages.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/beverages.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/breakfast-foods.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/breakfast-foods.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/canned-goods.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/canned-goods.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/condiments-sauces.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/condiments-sauces.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/d11906-specialty-cheese.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/d11906-specialty-cheese.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/d13879-wine.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/d13879-wine.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/d13880-beer.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/d13880-beer.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/d50169-sushi.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/d50169-sushi.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/d57337-game-day.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/d57337-game-day.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/d57398-wegmans-fall-fun.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/d57398-wegmans-fall-fun.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/d8678-wegmans-brand.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/d8678-wegmans-brand.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/d9701-prepared-foods.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/d9701-prepared-foods.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/dairy.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/dairy.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/dry-goods-pasta.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/dry-goods-pasta.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/dynamic_collection-sales.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/dynamic_collection-sales.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/floral.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/floral.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/frozen.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/frozen.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/health-care.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/health-care.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/household.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/household.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/kitchen-supplies.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/kitchen-supplies.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/meat-and-seafood.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/meat-and-seafood.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/office-craft.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/office-craft.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/oils-vinegars-spices.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/oils-vinegars-spices.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/party-gifts.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/party-gifts.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/pets.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/pets.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/produce.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/produce.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/sample.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/sample.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/pickledData/snacks-and-candy.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/pickledData/snacks-and-candy.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categorizer/words.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/categorizer/words.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/OrderStatus.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/OrderStatus.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
     <envs>
@@ -90,6 +57,7 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "ts.external.directory.path": "/Users/aidan/Code/hackmit-2022/frontend/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -159,6 +127,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="web3 moment" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/hackmit_2022$main.coverage" NAME="main Coverage Results" MODIFIED="1664706801477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/hackmit_2022$main.coverage" NAME="main Coverage Results" MODIFIED="1664667654253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
   </component>
 </project>

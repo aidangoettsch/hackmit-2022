@@ -68,8 +68,36 @@ export const pushNewOrder = async (items: OrderItem[]) => {
   }
 };
 
+export const getOrderStatus = async (id: string): Promise<ExistingOrderType> => {
+  // try {
+  //   return {
+  //
+  //   }
+  // } catch (error) {
+  //   console.error(error);
+  // }
+
+  return {
+    time: new Date().toLocaleTimeString(),
+    status: 4,
+    price: 3.99,
+    users: [
+      {
+        name: "albhog",
+        location: "halal burger",
+        host: true,
+      },
+      {
+        name: "alll!!!!",
+        location: "bread",
+        host: false,
+      },
+    ]
+  };
+}
+
 /**
- * 
+ *
 
 ---
 GET

@@ -167,6 +167,7 @@ def post_orders():
     else:
         orders.append({
             'time': time,
+            'status': 1,
             'items': [*items],
             'users': [{
                 "name": user,
