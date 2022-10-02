@@ -236,7 +236,7 @@ const OrderStep: FC<{
   setOrderIdx: (idx: number) => void;
   order: Order;
   setOrder: (order: Order) => void;
-  onCheckout: () => void;
+  onCheckout: (order: Order) => void;
 }> = ({ active, orderIdx, setOrderIdx, order, setOrder, onCheckout }) => {
   const { classes } = useOrderStyles();
 
@@ -419,27 +419,30 @@ const OrderStep: FC<{
       <Group position="right">
         <Button
           onClick={() => {
+            let newOrder = order
             if (orderIdx === 0) {
               const start = new Date("2022-10-02T16:00-04:00");
               const end = new Date("2022-10-02T20:00-04:00");
-              setOrder({
+              newOrder = {
                 ...order,
                 orderDay: start,
                 windowStart: start,
                 windowEnd: end,
-              });
+              }
+              setOrder(newOrder);
             } else if (orderIdx === 1) {
               const start = new Date("2022-10-02T14:00-04:00");
               const end = new Date("2022-10-02T16:00-04:00");
-              setOrder({
+              newOrder = {
                 ...order,
                 orderDay: start,
                 windowStart: start,
                 windowEnd: end,
-              });
+              }
+              setOrder(newOrder);
             }
 
-            onCheckout()
+            onCheckout(newOrder)
           }}
           disabled={orderIdx === -1 && (!order.windowStart || !order.windowEnd)}
         >
@@ -529,7 +532,7 @@ export default () => {
     });
   };
 
-  const onCheckout = async () => {
+  const onCheckout = async (order: Order) => {
     const { userId, orderId } = await pushNewOrder(
       order.windowEnd!.toLocaleTimeString(),
       name,
