@@ -1,7 +1,6 @@
 import json
 
 import flask
-import irisnative
 import pyodbc
 from flask import request
 
@@ -44,7 +43,7 @@ print("Connected to InterSystems IRIS")
 app = flask.Flask(__name__)
 
 
-@app.route('/items/id', methods=['GET'])
+@app.route('/api/items/id', methods=['GET'])
 def get_id():
     var = request.args.get("id")
     sql = f"SELECT * FROM Items WHERE ID='{var}'"
@@ -62,7 +61,7 @@ def get_id():
     return json.dumps(rows_parsed)
 
 
-@app.route('/items/all', methods=['GET'])
+@app.route('/api/items/all', methods=['GET'])
 def get_all():
     sql = "SELECT * FROM Items"
     cursor.execute(sql)
@@ -79,5 +78,11 @@ def get_all():
     return json.dumps(rows_parsed)
 
 
+@app.route('/', defaults={'u_path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return 'You want path: %s' % path
+
+
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(host="0.0.0.0", debug=True)
