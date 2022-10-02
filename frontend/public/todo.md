@@ -1,11 +1,15 @@
 todo:
 
-- landing page
+- [x] landing page
+- [ ] asdf
+- [ ]
 
 - authentication page
 - shopping page
 - cart page
 - profile page
+
+- category carousel
 
 later todo:
 
@@ -24,3 +28,9 @@ later todo:
 
 - shopping page read in cart data
 - sidebar link data
+
+- props for data
+
+- sustainable tag
+- react router search params
+- view more button

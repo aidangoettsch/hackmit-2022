@@ -78,6 +78,36 @@ def get_all():
     return json.dumps(rows_parsed)
 
 
+order = []
+
+
+@app.route('/order', methods=['POST'])
+def create_order():
+    items = request.get_json()
+
+    order.append(items)
+
+    return json.dumps({
+        id: 0
+    })
+
+
+@app.route('/order/<id>/join', methods=['POST'])
+def get_order_join(id):
+    items = request.get_json()
+
+    order.append(items)
+
+    return json.dumps({
+        id: 0
+    })
+
+
+@app.route('/order/<id>/status', methods=['GET'])
+def get_order_status(id):
+    return json.dumps(len(order) >= 2)
+
+
 @app.route('/', defaults={'u_path': ''})
 @app.route('/<path:path>')
 def catch_all(path):

@@ -1,4 +1,5 @@
 import { AppShell, Navbar, Header } from "@mantine/core";
+import CategoryCarousel from "../components/CategoryCarousel";
 import ShoppingNavBar from "../components/ShoppingNavBar";
 
 export default () => {
@@ -20,7 +21,11 @@ export default () => {
         },
       })}
     >
-      hello fresh
+      <CategoryCarousel />
+      <br />
+      <CategoryCarousel />
+      <br />
+      <CategoryCarousel />
     </AppShell>
   );
 };

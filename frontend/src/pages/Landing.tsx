@@ -161,6 +161,7 @@ export default function HeroText() {
                 justifyContent: "flex-start",
                 alignItems: "flex-start",
                 marginLeft: "-215px",
+                fontSize: "50px",
               }}
             >
               <Text sx={{ textDecoration: "underline lime" }} inherit>
