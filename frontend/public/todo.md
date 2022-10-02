@@ -52,3 +52,24 @@ later todo:
 
 - back button on category
 - back button on item
+- 450 memorial drive
+
+0
+:
+42.355344
+1
+:
+-71.099467
+
+johnson
+
+0
+:
+latitude
+42.360401
+1
+:
+longtitude
+-71.094356
+
+pitch deck

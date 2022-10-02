@@ -12,6 +12,7 @@ import {
   Title,
   useMantineTheme,
   Autocomplete,
+  Box,
 } from "@mantine/core";
 import { FC, useState, FocusEvent } from "react";
 import axios from "axios";
@@ -30,6 +31,7 @@ import { useNavigate } from "react-router-dom";
 import Map, { Marker } from "react-map-gl";
 import "../remove.css";
 import React from "react";
+import { useCart } from "react-use-cart";
 
 interface Order {
   orderDay?: Date | null;
@@ -453,7 +455,7 @@ export default () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [autocompletes, setAutocompletes] = useState<string[]>([""]);
-  const [orderIdx, setOrderIdx] = useState(0);
+  const [orderIdx, setOrderIdx] = useState(-1);
   const [order, setOrder] = useState<Order>({
     orderDay: new Date(),
     fee: 2.99,
@@ -509,6 +511,123 @@ export default () => {
   const orderSubtotal = 26.75;
   const orderTax = orderSubtotal * 0.06;
   const total = orderSubtotal + orderTax + order.fee;
+
+  const { isEmpty, items, totalUniqueItems, updateItemQuantity, removeItem } =
+    useCart();
+
+  const renderMap = () => {
+    if (orderIdx === 0) {
+      return (
+        <>
+          {" "}
+          <Title
+            sx={{
+              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              fontWeight: 900,
+              color: theme.white,
+              lineHeight: 1.2,
+              fontSize: 22,
+              marginTop: theme.spacing.xs,
+            }}
+          >
+            Where Your Order Is Located
+          </Title>
+          <Map
+            zoom={14.5}
+            latitude={42.35}
+            longitude={-71.09}
+            style={{ width: 250, height: 250, marginTop: "20px" }}
+            mapStyle="mapbox://styles/mapbox/streets-v9"
+            mapboxAccessToken="pk.eyJ1Ijoicm9iZXJ0YmFvIiwiYSI6ImNrbmJ4b2EyazB3a2kyb29vdmI4NnFhdHkifQ.eWUrs0-n2fF0u1XZhNbE4w"
+          >
+            {" "}
+            <Marker latitude={42.35} longitude={-71.09} key={"loc1"}>
+              <img src="/pin.png" height={"20px"} width={"15px"} />
+            </Marker>
+          </Map>
+        </>
+      );
+    }
+
+    if (orderIdx === 1) {
+      return (
+        <>
+          {" "}
+          <Title
+            sx={{
+              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              fontWeight: 900,
+              color: theme.white,
+              lineHeight: 1.2,
+              fontSize: 22,
+              marginTop: theme.spacing.xs,
+            }}
+          >
+            Where Your Order Is Located
+          </Title>
+          <Map
+            zoom={14.5}
+            latitude={42.36}
+            longitude={-71.09}
+            style={{ width: 250, height: 250, marginTop: "20px" }}
+            mapStyle="mapbox://styles/mapbox/streets-v9"
+            mapboxAccessToken="pk.eyJ1Ijoicm9iZXJ0YmFvIiwiYSI6ImNrbmJ4b2EyazB3a2kyb29vdmI4NnFhdHkifQ.eWUrs0-n2fF0u1XZhNbE4w"
+          >
+            {" "}
+            <Marker latitude={42.36} longitude={-71.09} key={"loc1"}>
+              <img src="/pin.png" height={"20px"} width={"15px"} />
+            </Marker>
+          </Map>
+        </>
+      );
+    }
+
+    if (orderIdx === 2) {
+      return (
+        <>
+          {" "}
+          <Title
+            sx={{
+              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              fontWeight: 900,
+              color: theme.white,
+              lineHeight: 1.2,
+              fontSize: 22,
+              marginTop: theme.spacing.xs,
+            }}
+          >
+            Where Your Order Is Located
+          </Title>
+          <Map
+            zoom={14.5}
+            latitude={42.36}
+            longitude={-71.09}
+            style={{ width: 250, height: 250, marginTop: "20px" }}
+            mapStyle="mapbox://styles/mapbox/streets-v9"
+            mapboxAccessToken="pk.eyJ1Ijoicm9iZXJ0YmFvIiwiYSI6ImNrbmJ4b2EyazB3a2kyb29vdmI4NnFhdHkifQ.eWUrs0-n2fF0u1XZhNbE4w"
+          >
+            {" "}
+            <Marker latitude={42.36} longitude={-71.09} key={"loc1"}>
+              <img src="/pin.png" height={"20px"} width={"15px"} />
+            </Marker>
+          </Map>
+        </>
+      );
+    }
+
+    return <></>;
+  };
+  const convertPrice = (price: string) => {
+    return parseFloat(price.replace("$", ""));
+  };
+
+  const calcPrice = () => {
+    let pr = items.reduce((acc, item) => {
+      return acc + convertPrice(item.priceString) * item.quantity!;
+    }, 0.0);
+    console.log(pr);
+    return pr;
+  };
 
   return (
     <AppShell>
@@ -619,36 +738,49 @@ export default () => {
             </Stepper.Completed>
           </Stepper>
         </Stack>
-        <Paper
-          sx={(theme) => ({
-            padding: "0.5rem",
-            width: "300px",
-            borderWidth: "1px",
-            borderStyle: "solid",
-            borderColor: "solid",
-            borderRadius: theme.radius.md,
-          })}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <Stack spacing={2}>
-            <Group position={"apart"}>
-              <Text weight={"bold"}>Subtotal</Text>
-              <Text weight={"bold"}>${orderSubtotal.toFixed(2)}</Text>
-            </Group>
-            <Group position={"apart"}>
-              <Text>Taxes</Text>
-              <Text>${orderTax.toFixed(2)}</Text>
-            </Group>
-            <Group position={"apart"}>
-              <Text weight={"bold"}>Delivery Fee</Text>
-              <Text weight={"bold"}>${order.fee.toFixed(2)}</Text>
-            </Group>
-            <Divider my="sm" color={"light"} />
-            <Group position={"apart"}>
-              <Text weight={"bold"}>Total</Text>
-              <Text weight={"bold"}>${total.toFixed(2)}</Text>
-            </Group>
-          </Stack>
-        </Paper>
+          <Paper
+            sx={(theme) => ({
+              padding: "0.5rem",
+              width: "300px",
+              borderWidth: "1px",
+              borderStyle: "solid",
+              borderColor: "solid",
+              borderRadius: theme.radius.md,
+              mb: "lg",
+            })}
+          >
+            <Stack spacing={2}>
+              <Group position={"apart"}>
+                <Text weight={"bold"}>Subtotal</Text>
+                <Text weight={"bold"}>${calcPrice().toFixed(2)}</Text>
+              </Group>
+              <Group position={"apart"}>
+                <Text>Taxes</Text>
+                <Text>${orderTax.toFixed(2)}</Text>
+              </Group>
+              <Group position={"apart"}>
+                <Text weight={"bold"}>Delivery Fee</Text>
+                <Text weight={"bold"}>${order.fee.toFixed(2)}</Text>
+              </Group>
+              <Divider my="sm" color={"light"} />
+              <Group position={"apart"}>
+                <Text weight={"bold"}>Total</Text>
+                <Text weight={"bold"}>
+                  ${(calcPrice() + order.fee + orderTax).toFixed(2)}
+                </Text>
+              </Group>
+            </Stack>
+          </Paper>
+          {renderMap()}
+        </Box>
       </Group>
     </AppShell>
   );
