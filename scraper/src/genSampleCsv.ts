@@ -41,6 +41,8 @@ async function main() {
   // )]
 
   // await writeFile("data/sample.csv", csvList.join("\n"))
+
+  await s.close()
 }
 
 main().then()

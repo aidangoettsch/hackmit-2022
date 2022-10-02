@@ -92,6 +92,10 @@ class Scraper {
 
     return res.data
   }
+
+  async close() {
+    await this.context.close()
+  }
 }
 
 export default Scraper
