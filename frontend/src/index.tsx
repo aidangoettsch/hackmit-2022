@@ -6,6 +6,7 @@ import { MantineProvider, Global } from "@mantine/core";
 import { BrowserRouter } from "react-router-dom";
 
 import { NotificationsProvider } from "@mantine/notifications";
+import { CartProvider } from "react-use-cart";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -59,9 +60,11 @@ root.render(
       }}
     >
       <BrowserRouter>
-        <NotificationsProvider>
-          <App />
-        </NotificationsProvider>
+        <CartProvider>
+          <NotificationsProvider>
+            <App />
+          </NotificationsProvider>
+        </CartProvider>
       </BrowserRouter>
     </MantineProvider>
   </React.StrictMode>

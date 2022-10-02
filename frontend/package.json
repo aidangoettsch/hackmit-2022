@@ -29,6 +29,7 @@
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
     "react-use-cart": "^1.13.0",
+    "replace-color": "^2.3.0",
     "sass": "^1.55.0",
     "tsparticles": "^2.3.4",
     "tsparticles-engine": "^2.3.3",

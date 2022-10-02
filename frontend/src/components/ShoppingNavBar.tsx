@@ -26,6 +26,7 @@ import {
   IconMedal,
 } from "@tabler/icons";
 import { Link } from "react-router-dom";
+import { useCart } from "react-use-cart";
 // import { UserButton } from '../UserButton/UserButton';
 import { name } from "../util/constants";
 
@@ -167,12 +168,6 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const links = [
-  { icon: IconShoppingCart, label: "Cart", notifications: 3 },
-  // { icon: IconCheckbox, label: "Tasks", notifications: 4 },
-  // { icon: IconUser, label: "Contacts" },
-];
-
 const collections = [
   { emoji: "👍", label: "Produce" },
   { emoji: "🚚", label: "Dairy" },
@@ -181,19 +176,25 @@ const collections = [
 
 export default function NavbarSearch() {
   const { classes } = useStyles();
+  const { totalItems } = useCart();
 
+  const links = [
+    { icon: IconShoppingCart, label: "Cart", notifications: totalItems },
+  ];
   const mainLinks = links.map((link) => (
-    <UnstyledButton key={link.label} className={classes.mainLink}>
-      <div className={classes.mainLinkInner}>
-        <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
-        <span>{link.label}</span>
-      </div>
-      {link.notifications && (
-        <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-          {link.notifications}
-        </Badge>
-      )}
-    </UnstyledButton>
+    <Link to="/cart" style={{ textDecoration: "none" }}>
+      <UnstyledButton key={link.label} className={classes.mainLink}>
+        <div className={classes.mainLinkInner}>
+          <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
+          <span>{link.label}</span>
+        </div>
+        {link.notifications > 0 && (
+          <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
+            {link.notifications}
+          </Badge>
+        )}
+      </UnstyledButton>
+    </Link>
   ));
 
   const collectionLinks = collections.map((collection) => (
