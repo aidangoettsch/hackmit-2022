@@ -8,7 +8,7 @@ export interface Query {
 }
 
 class Scraper {
-  private context!: BrowserContext
+  context!: BrowserContext
   private storageState: any
 
   constructor() {}

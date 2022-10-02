@@ -21,6 +21,14 @@ async function main() {
 
   const departments = await instacart.categories(wegmansDelivery)
 
+  await writeFile(`data/departments.json`, JSON.stringify(Object.fromEntries(departments.map(d =>
+    [d.slug, {
+      id: d.id,
+      name: d.name,
+      slug: d.slug
+    }]
+  ))))
+
   for (const department of departments) {
     if (existsSync(`data/${department.slug}.json`)) {
       continue
