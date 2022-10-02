@@ -3,6 +3,7 @@ import json
 import flask
 import pyodbc
 from flask import request
+import categorizer.bagOwords
 
 
 def get_connection_info(file_name):
@@ -111,6 +112,33 @@ def get_search():
     return json.dumps(processed_rows)
 
 
+@app.route("/api/similar", methods=["GET"])
+def get_similar():
+    query = request.values.get("query")
+    category = request.values.get("category")
+    k = request.values.get("k", default=10, type=int)
+    similar_items = categorizer.bagOwords.searchQuery(query, category, k)
+    p = []
+    for item in similar_items:
+        sql = f"SELECT * FROM Items WHERE Id = '{item[0]}' AND Category = '{category}'"
+        print(sql)
+        cursor.execute(sql)
+        row = cursor.fetchone()
+        p.append({
+            "id": row[0],
+            "name": row[1],
+            "productId": row[2],
+            "brandId": row[3],
+            "brandName": row[4],
+            "size": row[5],
+            "imageUrl": row[6],
+            "priceString": row[7],
+            "category": row[8],
+            "sustainable": row[9]
+        })
+    return json.dumps(p)
+
+
 orders = []
 
 
@@ -154,10 +182,6 @@ def post_orders():
 @app.route('/<path:path>')
 def catch_all(path):
     return 'You pinged path: %s' % path
-
-
-
-
 
 
 if __name__ == '__main__':
