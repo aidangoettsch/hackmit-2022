@@ -11,9 +11,29 @@ async function main() {
   }, "484768145")
 
   const wegmansDelivery = shops.find(s => s.serviceType === "delivery")!!
-  const items = await instacart.search(wegmansDelivery, "bread")
 
-  console.log(await instacart.items(wegmansDelivery, items, "392", "02139"))
+  // const app = express()
+  //
+  // app.set('query parser', 'simple')
+  //
+  // app.get("/search", async (req, res) => {
+  //   const searchTerm = req.query.q as (string | undefined)
+  //
+  //   if (!searchTerm) {
+  //     res.sendStatus(401)
+  //     re
+  //     return
+  //   }
+  //
+  //   const items = await instacart.search(wegmansDelivery, searchTerm)
+  //
+  //
+  // })
+  //
+  // const port = process.env.PORT || 3000
+  // app.listen(port, () => {
+  //   console.log(`Scraper listening on port ${port}`)
+  // })
 }
 
 main().then()

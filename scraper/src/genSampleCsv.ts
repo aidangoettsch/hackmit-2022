@@ -14,10 +14,15 @@ async function main() {
   const wegmansDelivery = shops.find(s => s.serviceType === "delivery")!!
   const ids = []
 
-  ids.push(...(await instacart.search(wegmansDelivery, "bread")))
-  ids.push(...(await instacart.search(wegmansDelivery, "cheese")))
-  ids.push(...(await instacart.search(wegmansDelivery, "beef")))
+  // ids.push(...(await instacart.search(wegmansDelivery, "bread")))
+  // ids.push(...(await instacart.search(wegmansDelivery, "cheese")))
+  // ids.push(...(await instacart.search(wegmansDelivery, "beef")))
 
+  const departments = await instacart.categories(wegmansDelivery)
+
+  for (const department of departments) {
+    ids.push(...(await instacart.categoryItems(wegmansDelivery, department)))
+  }
   const items = Object.values(await instacart.items(wegmansDelivery, ids, "392", "02139"))
 
   const csvList = ["id,name,size,brandName,priceString", ...items.map(i =>
