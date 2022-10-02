@@ -529,7 +529,12 @@ export default () => {
   React.useEffect(() => {
     if (active == 3) {
       console.log("done");
-      pushNewOrder(genOrderFromCart());
+      pushNewOrder(
+        order.windowEnd!.toLocaleTimeString(),
+        name,
+        locationString,
+        genOrderFromCart()
+      );
     }
   }, [active]);
 

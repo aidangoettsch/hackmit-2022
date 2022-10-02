@@ -155,10 +155,14 @@ export default function Card({ id }: CardProps) {
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Unstainable Items"
+        title=""
+        size={"1500px"}
       >
         <Container>
-          <CardsCarousel data={sustainableItems} />
+          <CardsCarousel
+            data={sustainableItems}
+            category={"Suggested Replacements"}
+          />
         </Container>
       </Modal>
       <Paper shadow="md" p="xl" radius="md" className={classes.card}>
