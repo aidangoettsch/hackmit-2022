@@ -12,8 +12,10 @@ export const getData = async (): Promise<ProductType[]> => {
   return [];
 };
 
-export const getCategoryNames = (): string[] => {
-  return ["Produce", "Dairy", "Carbohydrate", "Meat", "Beverage"];
+export const getCategoryNames = (): Promise<string[]> => {
+  return new Promise((resolve, reject) => {
+    resolve(["Produce", "Dairy", "Carbohydrate", "Meat", "Beverage"]);
+  });
 };
 
 export const getCategoryItemsByCategoryName = async (

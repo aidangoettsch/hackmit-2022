@@ -25,10 +25,12 @@ import {
   IconLeaf,
   IconMedal,
 } from "@tabler/icons";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
 // import { UserButton } from '../UserButton/UserButton';
 import { name } from "../util/constants";
+import { getCategoryNames } from "../util/getProductData";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -168,19 +170,22 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const collections = [
-  { emoji: "👍", label: "Produce" },
-  { emoji: "🚚", label: "Dairy" },
-  { emoji: "💸", label: "Beverage" },
-];
-
 export default function NavbarSearch() {
   const { classes } = useStyles();
   const { totalItems } = useCart();
 
+  const [categories, setCategories] = React.useState<string[]>([]);
+
   const links = [
     { icon: IconShoppingCart, label: "Cart", notifications: totalItems },
   ];
+
+  React.useEffect(() => {
+    getCategoryNames().then((names) => {
+      setCategories(names);
+    });
+  }, []);
+
   const mainLinks = links.map((link) => (
     <Link to="/cart" style={{ textDecoration: "none" }}>
       <UnstyledButton key={link.label} className={classes.mainLink}>
@@ -197,16 +202,12 @@ export default function NavbarSearch() {
     </Link>
   ));
 
-  const collectionLinks = collections.map((collection) => (
-    <a
-      href="/"
-      onClick={(event) => event.preventDefault()}
-      key={collection.label}
-      className={classes.collectionLink}
-    >
-      {/* <span style={{ marginRight: 9, fontSize: 16 }}>{collection.emoji}</span>{" "} */}
-      {collection.label}
-    </a>
+  const collectionLinks = categories.map((collection) => (
+    <Link to={`category/${collection}`} style={{ textDecoration: "none" }}>
+      <a key={collection} className={classes.collectionLink}>
+        {collection}
+      </a>
+    </Link>
   ));
 
   return (
@@ -233,13 +234,7 @@ export default function NavbarSearch() {
       </Navbar.Section>
 
       <Navbar.Section className={classes.section}>
-        <Avatar
-          src={"/wegmans.png"}
-          size={120}
-          radius={1250}
-          mx="auto"
-          // sx={{ ".mantine-Avatar-image": { objectFit: "none" } }}
-        />
+        <Avatar src={"/wegmans.png"} size={120} radius={1250} mx="auto" />
         <Text align="center" size="lg" weight={500} mt="md">
           Wegmans{" "}
           <Tooltip label="This store is committed to creating a more sustainable future!">
@@ -284,20 +279,6 @@ export default function NavbarSearch() {
       </Navbar.Section>
 
       <Navbar.Section className={classes.section}>
-        {/* <Group className={classes.collectionsHeader} position="apart">
-          <Text
-            size="lg"
-            weight={500}
-            color="dimmed"
-            sx={{
-              verticalAlign: "baseline",
-            }}
-            className={classes.mainLinkInner}
-          >
-            <IconTags size={20} className={classes.mainLinkIcon} stroke={1.5} />{" "}
-            Categories
-          </Text>
-        </Group> */}
         <div className={classes.collections}>{collectionLinks}</div>
       </Navbar.Section>
     </Navbar>
