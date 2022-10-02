@@ -138,3 +138,17 @@ POST
 
 adds order to orders
  */
+
+export const getSustainableItems = async (
+  query: string
+): Promise<ProductType[]> => {
+  try {
+    const response = await axios.get("/sample.json");
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+
+  return [];
+};

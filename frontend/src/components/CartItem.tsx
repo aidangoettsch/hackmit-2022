@@ -51,6 +51,7 @@
 
 // export default CartItem;
 
+import { CarouselSlide } from "@mantine/carousel/lib/CarouselSlide/CarouselSlide";
 import {
   Paper,
   Box,
@@ -59,9 +60,16 @@ import {
   Tooltip,
   createStyles,
   Text,
+  Badge,
+  Modal,
+  Container,
 } from "@mantine/core";
+import React from "react";
 import { useCart } from "react-use-cart";
+import { ProductType } from "../types/product";
+import { getSustainableItems } from "../util/getProductData";
 import { willTruncate, truncate } from "../util/util";
+import CardsCarousel from "./CategoryCarousel";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -111,6 +119,12 @@ export default function Card({ id }: CardProps) {
   const item = getItem(id);
   const { name, price, imageUrl, description, size, priceString } = item;
 
+  const [opened, setOpened] = React.useState(false);
+
+  const [sustainableItems, setSustainableItems] = React.useState<ProductType[]>(
+    []
+  );
+
   const itemQuantity = getItem(id)?.quantity || 0;
 
   const handleQuantityAdd = () => {
@@ -125,82 +139,116 @@ export default function Card({ id }: CardProps) {
     }
   };
 
+  React.useEffect(() => {
+    getSustainableItems(name).then((data) => {
+      setSustainableItems(data);
+      console.log(data);
+    });
+  }, []);
+
+  const handleSustain = () => {
+    setOpened(true);
+  };
+
   return (
-    <Paper shadow="md" p="xl" radius="md" className={classes.card}>
-      <Box sx={{ display: "flex" }}>
-        <Avatar radius="lg" size={120} src={imageUrl} />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            width: "300px",
-            marginTop: "15px",
-            marginLeft: "15px",
-          }}
-        >
-          <Tooltip label={willTruncate(name) ? name : ""} openDelay={300}>
-            <Text size={"md"}>{name}</Text>
-          </Tooltip>
-
-          <Text color="dimmed" size={"sm"}>
-            {size}
-          </Text>
-          <Text weight={"500"} mr={"md"}>
-            {priceString}
-          </Text>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          width: "95px",
-        }}
+    <>
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Unstainable Items"
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexGrow: 1,
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          {itemQuantity != 0 ? (
-            <>
-              <Button
-                color={"red"}
-                p="0"
-                sx={{ height: "30px", width: "30px" }}
-                onClick={() => {
-                  handleQuantityRemove();
-                }}
-              >
-                <Text size="xl">-</Text>
-              </Button>
-              <Text size="md">{itemQuantity}</Text>
-            </>
-          ) : (
-            <>
-              {" "}
-              <span></span>
-            </>
-          )}
-
-          <Button
-            color={"yellow"}
-            p="0"
-            sx={{ height: "30px", width: "30px" }}
-            onClick={() => {
-              handleQuantityAdd();
+        <Container>
+          <CardsCarousel data={sustainableItems} />
+        </Container>
+      </Modal>
+      <Paper shadow="md" p="xl" radius="md" className={classes.card}>
+        <Box sx={{ display: "flex" }}>
+          <Avatar radius="lg" size={120} src={imageUrl} />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              width: "300px",
+              marginTop: "15px",
+              marginLeft: "15px",
             }}
           >
-            <Text size="xl">+</Text>
-          </Button>
+            {sustainableItems.length > 0 && (
+              <Badge
+                color="red"
+                variant="filled"
+                sx={{ fontWeight: 500, fontSize: 15, cursor: "pointer" }}
+                onClick={() => {
+                  handleSustain();
+                }}
+              >
+                !
+              </Badge>
+            )}
+            <Tooltip label={willTruncate(name) ? name : ""} openDelay={300}>
+              <Text size={"md"}>{name}</Text>
+            </Tooltip>
+
+            <Text color="dimmed" size={"sm"}>
+              {size}
+            </Text>
+            <Text weight={"500"} mr={"md"}>
+              {priceString}
+            </Text>
+          </Box>
         </Box>
-      </Box>
-    </Paper>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            width: "95px",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexGrow: 1,
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            {itemQuantity != 0 ? (
+              <>
+                <Button
+                  color={"red"}
+                  p="0"
+                  sx={{ height: "30px", width: "30px" }}
+                  onClick={() => {
+                    handleQuantityRemove();
+                  }}
+                >
+                  <Text size="xl">-</Text>
+                </Button>
+                <Text size="md">{itemQuantity}</Text>
+              </>
+            ) : (
+              <>
+                {" "}
+                <span></span>
+              </>
+            )}
+
+            <Button
+              color={"yellow"}
+              p="0"
+              sx={{ height: "30px", width: "30px" }}
+              onClick={() => {
+                handleQuantityAdd();
+              }}
+            >
+              <Text size="xl">+</Text>
+            </Button>
+          </Box>
+        </Box>
+      </Paper>
+    </>
   );
 }
