@@ -3,16 +3,25 @@ import React from "react";
 import CategoryCarousel from "../components/CategoryCarousel";
 import ShoppingNavBar from "../components/ShoppingNavBar";
 import { ProductType } from "../types/product";
-import { getData } from "../util/getProductData";
+import {getCategoryItemsByCategoryName, getCategoryNames, getData} from "../util/getProductData";
 import { Outlet } from "react-router-dom";
 
 export default () => {
-  const [products, setProducts] = React.useState<ProductType[]>([]);
+  const [products, setProducts] = React.useState<{
+    category: string,
+    products: ProductType[]
+  }[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    getData().then((data: ProductType[]) => {
-      setProducts(data as ProductType[]);
+    Promise.all(getCategoryNames().slice(0, 5).map(async (category) => ({
+      category,
+      products: await getCategoryItemsByCategoryName(category, 20)
+    }))).then((data: {
+      category: string,
+      products: ProductType[]
+    }[]) => {
+      setProducts(data);
       setLoading(false);
     });
   }, []);
@@ -23,13 +32,10 @@ export default () => {
         <Center sx={{ height: "100%" }}>
           <Loader color="yellow" size="xl" />
         </Center>
-      ) : (
+      ) : products.map(({category, products}) =>
         <>
-          <CategoryCarousel data={products} />
+          <CategoryCarousel category={category} data={products} />
           <br />
-          {/* <CategoryCarousel data={products} />
-     <br />
-     <CategoryCarousel data={products} /> */}
         </>
       )}
     </>

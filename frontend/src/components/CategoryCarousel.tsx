@@ -18,10 +18,11 @@ import { truncate, willTruncate } from "../util/util";
 import Card from "./ItemCard";
 
 interface CategoryCarouselProps {
+  category: string,
   data: ProductType[];
 }
 export default function CardsCarousel(props: CategoryCarouselProps) {
-  const { data } = props;
+  const { category, data } = props;
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const slides = data.map((item, index) => (
@@ -37,7 +38,7 @@ export default function CardsCarousel(props: CategoryCarouselProps) {
         mb={"md"}
         size="25px"
       >
-        Carbohydrate
+        {category}
       </Title>
       <Carousel
         slideSize="15%"

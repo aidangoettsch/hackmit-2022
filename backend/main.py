@@ -57,8 +57,8 @@ def get_all_category_names():
 
 @app.route('/api/category', methods=['GET'])
 def get_category():
-    key = request.args.get('key')
-    view = request.args.get('view', default=-1, type=int)
+    key = request.args.get('category')
+    view = request.args.get('count', default=-1, type=int)
     sql = f"SELECT * FROM Items WHERE Category = '{key}'"
     cursor.execute(sql)
     rows = []
@@ -155,6 +155,8 @@ def post_orders():
     user = data['user']
     location = data['location']
 
+    orderId = len(orders)
+
     for i in range(len(orders)):
         if orders[i]['time'] == time:
             orders[i]['items'].append(items)
@@ -163,6 +165,7 @@ def post_orders():
                 "location": location,
                 "host": False
             })
+            orderId = i
             break
     else:
         orders.append({
@@ -175,6 +178,18 @@ def post_orders():
                 "host": True
             }],
         })
+    return json.dumps({
+        'orderId': orderId,
+        'userId': len(orders[orderId]['users']) - 1
+    })
+
+
+@app.route('/api/orders/<id>', methods=['PATCH'])
+def update_order(id):
+    data = request.get_json()
+    status = data['status']
+
+    orders[id]['status'] = status
     return json.dumps("success")
 
 

@@ -12,7 +12,7 @@ import {
   Title,
   Avatar,
   Box,
-  useMantineTheme,
+  useMantineTheme, ScrollArea,
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
@@ -196,17 +196,11 @@ export default function NavbarSearch() {
     },
   });
 
-  const [categories, setCategories] = React.useState<string[]>([]);
+  const categories = getCategoryNames();
 
   const links = [
     { icon: IconShoppingCart, label: "Cart", notifications: totalItems },
   ];
-
-  React.useEffect(() => {
-    getCategoryNames().then((names) => {
-      setCategories(names);
-    });
-  }, []);
 
   const handleSearch = (e: any) => {
     console.log(e.search);
@@ -313,7 +307,7 @@ export default function NavbarSearch() {
         <div className={classes.mainLinks}>{mainLinks}</div>
       </Navbar.Section>
 
-      <Navbar.Section className={classes.section}>
+      <Navbar.Section grow component={ScrollArea} className={classes.section}>
         <div className={classes.collections}>{collectionLinks}</div>
       </Navbar.Section>
     </Navbar>
