@@ -11,6 +11,7 @@ import {
   Divider,
   Title,
   useMantineTheme,
+  Autocomplete,
 } from "@mantine/core";
 import { FC, useState, FocusEvent } from "react";
 import axios from "axios";
@@ -26,6 +27,9 @@ import {
 } from "@tabler/icons";
 import { DatePicker, TimeRangeInput } from "@mantine/dates";
 import { useNavigate } from "react-router-dom";
+import Map, { Marker } from "react-map-gl";
+import "../remove.css";
+import React from "react";
 
 interface Order {
   orderDay?: Date | null;
@@ -42,7 +46,7 @@ const useLocationStyles = createStyles((theme) => ({
 
 const LocationStep: FC<{
   active: boolean;
-  location: [number, number] | undefined;
+  location: [number, number];
   locationString: string;
   setLocationString: (location: string) => void;
   nextStep: () => void;
@@ -50,6 +54,7 @@ const LocationStep: FC<{
   name: string;
   setEmail: (email: string) => void;
   email: string;
+  autocompletes: string[];
 }> = ({
   active,
   location,
@@ -60,8 +65,25 @@ const LocationStep: FC<{
   setEmail,
   name,
   setName,
+  autocompletes,
 }) => {
   const { classes } = useLocationStyles();
+
+  const [viewState, setViewState] = React.useState({
+    longitude: location[1],
+    latitude: location[0],
+    zoom: 15,
+  });
+
+  React.useEffect(() => {
+    console.log(location);
+
+    setViewState({
+      longitude: location[1],
+      latitude: location[0],
+      zoom: 15,
+    });
+  }, [location]);
 
   if (!active) {
     return (
@@ -130,18 +152,52 @@ const LocationStep: FC<{
         autoComplete="off"
         value={name}
       />
-      <TextInput
+      <Autocomplete
         label="Address"
         placeholder="1234 Main St"
         required
         withAsterisk
         p={2}
-        onChange={(e: FocusEvent<HTMLInputElement>) =>
-          setLocationString(e.target.value)
-        }
+        onChange={setLocationString}
         autoComplete="off"
         value={locationString}
+        data={autocompletes}
       />
+
+      <Map
+        {...viewState}
+        style={{ width: 400, height: 400 }}
+        mapStyle="mapbox://styles/mapbox/streets-v9"
+        mapboxAccessToken="pk.eyJ1Ijoicm9iZXJ0YmFvIiwiYSI6ImNrbmJ4b2EyazB3a2kyb29vdmI4NnFhdHkifQ.eWUrs0-n2fF0u1XZhNbE4w"
+      >
+        {" "}
+        <Marker
+          longitude={viewState.longitude}
+          latitude={viewState.latitude}
+          key={"loc"}
+        >
+          <img src="/pin.png" height={"20px"} width={"15px"} />
+        </Marker>
+      </Map>
+      {/* <Map
+        initialViewState={{
+          longitude: -100,
+          latitude: 40,
+          zoom: 3.5,
+        }}
+        mapboxAccessToken="pk.eyJ1Ijoicm9iZXJ0YmFvIiwiYSI6ImNrbmJ4b2EyazB3a2kyb29vdmI4NnFhdHkifQ.eWUrs0-n2fF0u1XZhNbE4w"
+        mapStyle="mapbox://styles/mapbox/streets-v9"
+        style={{ width: 400, height: 400 }}
+      >
+        <Marker longitude={-100} latitude={40} offset={[0, 0]}>
+          <img
+            style={{ display: "block" }}
+            src="/pin.png"
+            height={"20px"}
+            width={"15px"}
+          />
+        </Marker>
+      </Map> */}
       <Group position="right">
         <Button onClick={nextStep} disabled={locationString.length === 0}>
           Next
@@ -392,12 +448,11 @@ export default () => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const [active, setActive] = useState(1);
-  const [location, setLocation] = useState<[number, number] | undefined>(
-    undefined
-  );
+  const [location, setLocation] = useState<[number, number]>([0, 0]);
   const [locationString, setLocationString] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [autocompletes, setAutocompletes] = useState<string[]>([""]);
   const [orderIdx, setOrderIdx] = useState(0);
   const [order, setOrder] = useState<Order>({
     orderDay: new Date(),
@@ -407,15 +462,45 @@ export default () => {
   const updateLocation = async (newLocation: string) => {
     setLocationString(newLocation);
     if (newLocation === "") {
-      setLocation(undefined);
+      setLocation([0, 0]);
       return;
     }
     try {
-      const resp = await axios.get(
-        `https://nominatim.openstreetmap.org/search?q=${newLocation}&format=json`
-      );
-      const { lat, lon } = resp.data[0];
-      setLocation([lat, lon]);
+      if (newLocation.length < 10) {
+        return;
+      }
+      var geo = {
+        method: "get",
+        url: `https://api.geoapify.com/v1/geocode/search?text=${newLocation}&apiKey=968ddaceb6d741669f5c59de6b1cd9fb`,
+        headers: {},
+      };
+      var config = {
+        method: "get",
+        url: `https://api.geoapify.com/v1/geocode/autocomplete?text=${newLocation}&apiKey=968ddaceb6d741669f5c59de6b1cd9fb`,
+        headers: {},
+      };
+
+      const resp = await axios(config);
+      const geoResp = await axios(geo);
+
+      // const resp = await axios.get(
+      //   `https://nominatim.openstreetmap.org/search?q=${newLocation}&format=json`
+      // );
+      console.log(geoResp, "location response");
+      let auto = resp.data.features.map((element: any) => {
+        return (
+          element.properties.address_line1 +
+          " " +
+          element.properties.address_line2
+        );
+      });
+      console.log(auto);
+      setAutocompletes(auto);
+      // const { lat, lon } = resp.data[0];
+      setLocation([
+        geoResp.data.features[0].properties.lat,
+        geoResp.data.features[0].properties.lon,
+      ]);
     } catch (e) {}
   };
   const nextStep = () =>
@@ -503,6 +588,7 @@ export default () => {
                   setName={setName}
                   setLocationString={updateLocation}
                   nextStep={nextStep}
+                  autocompletes={autocompletes}
                 />
               }
               allowStepSelect={active === 2}
