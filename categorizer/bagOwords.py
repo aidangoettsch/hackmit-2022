@@ -74,6 +74,7 @@ def bag(tokens, vocab):
 
     for token in tokens:
         token = token.lower()
+        if token not in vocab: continue
         vector[indexes[token]] = vocab[token] / count
         #vector[indexes[token]] = token
     
@@ -133,18 +134,21 @@ def alData():
                     except:
                         continue
 
-def searchQuery(query, datapath, jsonPath, k):
+def searchQuery(query, categoryName, k):
     '''used to search for a query in data and return the closest k results'''
 
     dictionary_en = set()
+    jsonPath = 'scraper\\data\\' + categoryName + '.json'
+    dataPath = 'categorizer\\pickledData\\' + categoryName + '.pickle'
 
-    with open('categorizer/words.txt', 'r') as f:
+
+    with open('categorizer\\words.txt', 'r') as f:
         for word in f:
             dictionary_en.add(word.lower().strip())
     
     vocab = getVocab(jsonPath)
 
-    dataset = pickle.load(open(datapath, 'rb'))
+    dataset = pickle.load(open(dataPath, 'rb'))
     tokens = tokenize(query, dictionary_en)
     vector = bag(tokens, vocab)
 
@@ -204,4 +208,9 @@ if __name__ == "__main__":
     #alData(file, dataPath)
     # alData()
 
-    print(searchQuery("Wegmans Sharp Cheddar Cheese Thin Sliced", "categorizer\\pickledData\\sample.pickle", "scraper\\data\\sample.json"))
+    #print(searchQuery("Wegmans Sharp Cheddar Cheese Thin Sliced", "sample", 10))
+
+    category = input("enter category: ")
+    query = input("enter search term: ")
+    k = int(input("enter k: "))
+    print(searchQuery(query, category, k))
