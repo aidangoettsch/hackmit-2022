@@ -52,6 +52,7 @@ export default function Card({
   name,
   size,
   id,
+  category,
 }: CardProps) {
   const { classes } = useStyles();
   const {
@@ -74,6 +75,7 @@ export default function Card({
         name,
         size,
         imageUrl,
+        category,
         price: -1,
         quantity: 1,
       });

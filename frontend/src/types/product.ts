@@ -5,6 +5,7 @@ export interface ProductType {
   size: string;
   imageUrl: string;
   priceString: string;
+  category: string;
   sustainable: boolean | string;
 }
 

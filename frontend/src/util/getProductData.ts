@@ -140,10 +140,13 @@ adds order to orders
  */
 
 export const getSustainableItems = async (
-  query: string
+  query: string,
+  categorySlug: string,
+  count: number = 10,
 ): Promise<ProductType[]> => {
   try {
-    const response = await axios.get("/sample.json");
+    const queryString = new URLSearchParams({ query, category: categorySlug, count: count.toString() })
+    const response = await axios.get(`/api/similar?${queryString}`);
 
     return response.data;
   } catch (error) {

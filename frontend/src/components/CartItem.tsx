@@ -117,7 +117,7 @@ export default function Card({ id }: CardProps) {
   } = useCart();
 
   const item = getItem(id);
-  const { name, price, imageUrl, description, size, priceString } = item;
+  const { name, price, imageUrl, description, size, priceString, category } = item;
 
   const [opened, setOpened] = React.useState(false);
 
@@ -140,7 +140,7 @@ export default function Card({ id }: CardProps) {
   };
 
   React.useEffect(() => {
-    getSustainableItems(name).then((data) => {
+    getSustainableItems(name, category).then((data) => {
       setSustainableItems(data);
       console.log(data);
     });
