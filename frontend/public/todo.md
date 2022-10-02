@@ -35,3 +35,13 @@ later todo:
 - react router search params
 - view more button
 - loader
+- tooltip long names
+- truncate viewable items in each category carousel
+- pull category data from db
+- go back button
+
+- implement all backend
+- implement all interfaces
+
+- you've been selected as host, arrive at your location at x time
+- x is your host, you will be arriving at x time, here's when you need to leave to pick up your order

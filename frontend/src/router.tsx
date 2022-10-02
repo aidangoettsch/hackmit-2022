@@ -11,6 +11,8 @@ import Authentication from "./pages/Authentication";
 import Register from "./pages/Register";
 import NotFoundTitle from "./pages/404";
 import Checkout from "./pages/Checkout";
+import CategorySearch from "./components/CategorySearch";
+import HomeShopping from "./components/HomeShopping";
 
 function App() {
   const location = useLocation();
@@ -37,7 +39,17 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/authentication" element={<Authentication />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/shopping" element={<Shopping />} />
+        <Route path="/shopping" element={<Shopping />}>
+          <Route index element={<HomeShopping />} />
+          <Route path="category/:category" element={<CategorySearch />} />
+          <Route path="item/:item" element={<CategorySearch />} />
+        </Route>
+        {/* <Route path="/shopping" element={<Shopping />} />
+        <Route
+          path="/shopping/category/:category"
+          element={<CategorySearch />}
+        />
+        <Route path="/shopping/search/:search" element={<CategorySearch />} /> */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />
