@@ -17,9 +17,13 @@ import {
   getData,
   getItemsBySearchTerm,
 } from "../util/getProductData";
+import { IconArrowLeft } from "@tabler/icons";
+
+import { useNavigate } from "react-router-dom";
 
 export default function CardsCarousel() {
   let params = useParams();
+  const navigate = useNavigate();
   const item = params.item;
   const [products, setProducts] = React.useState<ProductType[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -47,10 +51,20 @@ export default function CardsCarousel() {
       ) : (
         <Box>
           <Title
-            sx={{ fontFamily: `Greycliff CF, ${theme.fontFamily}` }}
+            sx={{
+              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              display: "flex",
+              alignItems: "center",
+            }}
             mb={"md"}
             size="25px"
           >
+            <IconArrowLeft
+              onClick={() => {
+                navigate("/shopping");
+              }}
+              style={{ cursor: "pointer", marginRight: "10px" }}
+            />
             Search results for "{item}"
           </Title>
           <SimpleGrid cols={6}>{slides}</SimpleGrid>

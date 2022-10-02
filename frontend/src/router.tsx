@@ -13,6 +13,7 @@ import NotFoundTitle from "./pages/404";
 import Checkout from "./pages/Checkout";
 import CategorySearch from "./components/CategorySearch";
 import HomeShopping from "./components/HomeShopping";
+import ItemSearch from "./components/ItemSearch";
 
 function App() {
   const location = useLocation();
@@ -42,7 +43,7 @@ function App() {
         <Route path="/shopping" element={<Shopping />}>
           <Route index element={<HomeShopping />} />
           <Route path="category/:category" element={<CategorySearch />} />
-          <Route path="item/:item" element={<CategorySearch />} />
+          <Route path="item/:item" element={<ItemSearch />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
