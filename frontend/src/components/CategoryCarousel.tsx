@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { useCart } from "react-use-cart";
 import { ProductType } from "../types/product";
+import { truncate } from "../util/util";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -74,16 +75,19 @@ function Card({ imageUrl, priceString, name, size, id }: CardProps) {
         size,
         imageUrl,
         price: -1,
+        quantity: 1,
       });
+    } else {
+      updateItemQuantity(id, itemQuantity + 1);
     }
-    updateItemQuantity(id, itemQuantity + 1);
   };
 
   const handleQuantityRemove = () => {
     if (itemQuantity == 1) {
       removeItem(id);
+    } else {
+      updateItemQuantity(id, itemQuantity - 1);
     }
-    updateItemQuantity(id, itemQuantity - 1);
   };
 
   return (
@@ -99,8 +103,10 @@ function Card({ imageUrl, priceString, name, size, id }: CardProps) {
             marginTop: "15px",
           }}
         >
-          <Text>{name}</Text>
-          <Text color="dimmed">{size}</Text>
+          <Text size={"sm"}>{truncate(name)}</Text>
+          <Text color="dimmed" size={"xs"}>
+            {size}
+          </Text>
         </Box>
       </Box>
       <Box
