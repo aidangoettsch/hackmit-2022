@@ -14,6 +14,8 @@ import {
   Box,
   useMantineTheme,
 } from "@mantine/core";
+
+import { useForm } from "@mantine/form";
 import {
   IconBulb,
   IconUser,
@@ -187,6 +189,12 @@ export default function NavbarSearch() {
   const { totalItems } = useCart();
   const theme = useMantineTheme();
 
+  const form = useForm({
+    initialValues: {
+      search: "",
+    },
+  });
+
   const [categories, setCategories] = React.useState<string[]>([]);
 
   const links = [
@@ -198,6 +206,11 @@ export default function NavbarSearch() {
       setCategories(names);
     });
   }, []);
+
+  const handleSearch = (e: any) => {
+    console.log(e.search);
+    console.log(e);
+  };
 
   const mainLinks = links.map((link) => (
     <Link to="/cart" style={{ textDecoration: "none" }}>
@@ -282,15 +295,18 @@ export default function NavbarSearch() {
           <IconMedal size={15} stroke={1.5} /> 100% satisfaction guarantee
         </Text>
       </Navbar.Section>
-
-      <TextInput
-        placeholder="Search"
-        size="md"
-        icon={<IconSearch size={12} stroke={1.5} />}
-        rightSectionWidth={70}
-        styles={{ rightSection: { pointerEvents: "none" } }}
-        mb="sm"
-      />
+      <form onSubmit={form.onSubmit((values) => handleSearch(values))}>
+        <TextInput
+          placeholder="Search"
+          size="md"
+          icon={<IconSearch size={12} stroke={1.5} />}
+          rightSectionWidth={70}
+          styles={{ rightSection: { pointerEvents: "none" } }}
+          mb="sm"
+          {...form.getInputProps("search")}
+          autoComplete="off"
+        />
+      </form>
 
       <Navbar.Section className={classes.section}>
         <div className={classes.mainLinks}>{mainLinks}</div>
