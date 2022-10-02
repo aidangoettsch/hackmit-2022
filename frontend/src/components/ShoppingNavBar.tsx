@@ -234,7 +234,7 @@ export default function NavbarSearch() {
 
       <Navbar.Section className={classes.section}>
         <Avatar
-          src={"wegmans.png"}
+          src={"/wegmans.png"}
           size={120}
           radius={1250}
           mx="auto"

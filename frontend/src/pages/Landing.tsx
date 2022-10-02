@@ -123,15 +123,6 @@ export default function HeroText() {
       <ParticlesContainer />
       {/* <Tilt> */}
       <Container className={classes.wrapper} size={1400}>
-        {/* <Dots className={classes.dots} style={{ left: 0, top: 0 }} /> */}
-        {/* <Dots className={classes.dots} style={{ left: 60, top: 0 }} /> */}
-        {/*  */}
-        {/*  */}
-        {/* <Dots className={classes.dots} style={{ left: 0, top: 140 }} />
-      <Dots className={classes.dots} style={{ right: 0, top: 60 }} />
-      <Dots className={classes.dots} style={{ left: 160, bottom: 80 }} />
-      <Dots className={classes.dots} style={{ right: 120, bottom: -30 }} /> */}
-
         <Image
           src="splash.png"
           alt="splash"
