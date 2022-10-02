@@ -14,10 +14,16 @@ export default () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    Promise.all(getCategoryNames().slice(0, 5).map(async (category) => ({
-      category,
-      products: await getCategoryItemsByCategoryName(category, 20)
-    }))).then((data: {
+    (async () => {
+      const res = []
+      for (const category of getCategoryNames().slice(0, 5)) {
+        res.push({
+          category,
+          products: await getCategoryItemsByCategoryName(category, 20)
+        })
+      }
+      return res
+    })().then((data: {
       category: string,
       products: ProductType[]
     }[]) => {
