@@ -1,8 +1,60 @@
-import { AppShell, Navbar, Header } from "@mantine/core";
+import { AppShell, Navbar, Header, Loader, Center } from "@mantine/core";
+import React from "react";
 import CategoryCarousel from "../components/CategoryCarousel";
 import ShoppingNavBar from "../components/ShoppingNavBar";
+import { ProductType } from "../types/product";
+import { getData } from "../util/getProductData";
+
+const data: ProductType[] = [
+  {
+    imageUrl: "item.jpeg",
+    name: "bread",
+    priceString: "$5.00",
+    size: "1lb",
+    id: "asdf",
+    brandId: "string",
+    brandName: "string",
+  },
+  {
+    imageUrl: "item.jpeg",
+    name: "bread",
+    priceString: "$5.00",
+    size: "1lb",
+    id: "asdf",
+    brandId: "string",
+    brandName: "string",
+  },
+  {
+    imageUrl: "item.jpeg",
+    name: "bread",
+    priceString: "$5.00",
+    size: "1lb",
+    id: "asdf",
+    brandId: "string",
+    brandName: "string",
+  },
+  {
+    imageUrl: "item.jpeg",
+    name: "bread",
+    priceString: "$5.00",
+    size: "1lb",
+    id: "asdf",
+    brandId: "string",
+    brandName: "string",
+  },
+];
 
 export default () => {
+  const [products, setProducts] = React.useState<ProductType[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    getData().then((data: ProductType[]) => {
+      setProducts(data as ProductType[]);
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <AppShell
       padding="md"
@@ -21,11 +73,19 @@ export default () => {
         },
       })}
     >
-      <CategoryCarousel />
-      <br />
-      <CategoryCarousel />
-      <br />
-      <CategoryCarousel />
+      {loading ? (
+        <Center sx={{ height: "100%" }}>
+          <Loader color="yellow" size="xl" />
+        </Center>
+      ) : (
+        <>
+          <CategoryCarousel data={products} />
+          <br />
+          {/* <CategoryCarousel data={products} />
+          <br />
+          <CategoryCarousel data={products} /> */}
+        </>
+      )}
     </AppShell>
   );
 };

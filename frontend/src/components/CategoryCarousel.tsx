@@ -12,6 +12,7 @@ import {
   Box,
 } from "@mantine/core";
 import { useCart } from "react-use-cart";
+import { ProductType } from "../types/product";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -42,14 +43,15 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface CardProps {
-  image: string;
+  imageUrl: string;
   priceString: string;
   name: string;
   size: string;
   id: string;
+  [key: string]: any;
 }
 
-function Card({ image, priceString, name, size, id }: CardProps) {
+function Card({ imageUrl, priceString, name, size, id }: CardProps) {
   const { classes } = useStyles();
   const {
     isEmpty,
@@ -70,7 +72,7 @@ function Card({ image, priceString, name, size, id }: CardProps) {
         priceString,
         name,
         size,
-        image,
+        imageUrl,
         price: -1,
       });
     }
@@ -87,7 +89,7 @@ function Card({ image, priceString, name, size, id }: CardProps) {
   return (
     <Paper shadow="md" p="xl" radius="md" className={classes.card}>
       <Box>
-        <Avatar radius="lg" size={160} src="item.jpeg" />
+        <Avatar radius="lg" size={160} src={imageUrl} />
         <Box
           sx={{
             display: "flex",
@@ -115,7 +117,12 @@ function Card({ image, priceString, name, size, id }: CardProps) {
         </Text>
 
         <Box
-          sx={{ display: "flex", flexGrow: 1, justifyContent: "space-between" }}
+          sx={{
+            display: "flex",
+            flexGrow: 1,
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
           {itemQuantity != 0 ? (
             <>
@@ -127,9 +134,9 @@ function Card({ image, priceString, name, size, id }: CardProps) {
                   handleQuantityRemove();
                 }}
               >
-                <Text size="xl">+</Text>
+                <Text size="xl">-</Text>
               </Button>
-              <Text size="xl">{itemQuantity}</Text>
+              <Text size="md">{itemQuantity}</Text>
             </>
           ) : (
             <>
@@ -154,80 +161,11 @@ function Card({ image, priceString, name, size, id }: CardProps) {
   );
 }
 
-const data = [
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-  {
-    image: "item.jpeg",
-    name: "bread",
-    priceString: "$5.00",
-    size: "1lb",
-    id: "asdf",
-  },
-];
-
-export default function CardsCarousel() {
+interface CategoryCarouselProps {
+  data: ProductType[];
+}
+export default function CardsCarousel(props: CategoryCarouselProps) {
+  const { data } = props;
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const slides = data.map((item, index) => (

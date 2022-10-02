@@ -34,3 +34,4 @@ later todo:
 - sustainable tag
 - react router search params
 - view more button
+- loader
