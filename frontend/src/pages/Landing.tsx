@@ -124,7 +124,7 @@ export default function HeroText() {
       {/* <Tilt> */}
       <Container className={classes.wrapper} size={1400}>
         <Image
-          src="splash.png"
+          src="/splash.png"
           alt="splash"
           sx={{
             position: "absolute",
