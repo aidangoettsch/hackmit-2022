@@ -10,6 +10,7 @@ import Cart from "./pages/Cart";
 import Authentication from "./pages/Authentication";
 import Register from "./pages/Register";
 import NotFoundTitle from "./pages/404";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const location = useLocation();
@@ -40,6 +41,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFoundTitle />} />
         {renderFooter()}
       </Routes>
