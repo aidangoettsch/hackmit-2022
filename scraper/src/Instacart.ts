@@ -5,6 +5,12 @@ interface Retailer {
   slug: string,
 }
 
+interface Category {
+  id: string,
+  name: string,
+  slug: string,
+}
+
 interface Shop {
   id: string,
   retailerInventorySessionToken: string,
@@ -13,7 +19,7 @@ interface Shop {
   serviceType: "delivery" | "pickup",
   viewSection: {
     id: string
-  }
+  },
 }
 
 interface PartialItem {
@@ -81,7 +87,39 @@ class Instacart {
     return res.searchResultsPlacements.placements[0].content.itemIds
   }
 
+  async categories(shop: Shop) : Promise<Category[]> {
+    await this.assertOk()
+
+    const res = await this.scraper.graphQl({
+      operationName: "DepartmentNavCollections",
+      queryHash: "16bb4d841528dfc5dbded8ef86a65b3c835952705c8e383efe629c5ee7811477"
+    }, {
+      retailerInventorySessionToken: shop.retailerInventorySessionToken,
+      includeSlugs: ['dynamic_collection-sales']
+    })
+
+    return res.deptCollections
+  }
+
+  async categoryItems(shop: Shop, category: Category): Promise<string[]> {
+    await this.assertOk()
+
+    const res = await this.scraper.graphQl({
+      operationName: "CollectionProductsWithFeaturedProducts",
+      queryHash: "a412726834531c3798cd0c3892ae8530c937007aef32fd8a3b395321be27366e"
+    }, {
+      retailerInventorySessionToken: shop.retailerInventorySessionToken,
+      slug: category.slug,
+      pageViewId: "",
+      itemsDisplayType: "collections_nav_child_carousel",
+      first: 0,
+    })
+
+    return res.collectionProducts.itemIds
+  }
+
   async items(shop: Shop, ids: string[], zoneId: string, postalCode: string): Promise<Record<string, Item>> {
+    await this.assertOk()
     const res: Record<string, PartialItem> = {}
 
     let i = 0
