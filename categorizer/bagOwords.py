@@ -131,6 +131,24 @@ def alData():
                         packData(jsonPath, dataPath)
                     except:
                         continue
+
+def searchQuery(query, datapath, jsonPath):
+    '''used to search for a query in data and return the closest k results'''
+
+    dictionary_en = set()
+
+    with open('categorizer/words.txt', 'r') as f:
+        for word in f:
+            dictionary_en.add(word.lower().strip())
+    
+    vocab = getVocab(jsonPath)
+
+    dataset = pickle.load(open(datapath, 'rb'))
+    tokens = tokenize(query, dictionary_en)
+    vector = bag(tokens, vocab)
+
+    return findClosestK(dataset, vector, 10)
+
                 
 
 # dictionary_en = set()
@@ -149,6 +167,8 @@ def alData():
 
 if __name__ == "__main__":
 
+    pass
+
     # file = input("enter path of json file: ")
 
     # dataPath = 'categorizer/pickledData/' + file.split("/")[-1] 
@@ -162,11 +182,11 @@ if __name__ == "__main__":
     # else:
     #     dataset = pickle.load(open(dataPath, "rb"))
     
-    dictionary_en = set()
+    # dictionary_en = set()
 
-    with open('categorizer\\words.txt', 'r') as f:
-        for word in f:
-            dictionary_en.add(word.lower().strip())
+    # with open('categorizer\\words.txt', 'r') as f:
+    #     for word in f:
+    #         dictionary_en.add(word.lower().strip())
 
     # vocab = getVocab(file)
     # #search = input("enter search term: ")
@@ -181,4 +201,6 @@ if __name__ == "__main__":
     #Wegmans Sharp Cheddar Cheese Thin Sliced
 
     #alData(file, dataPath)
-    alData()
+    # alData()
+
+    print(searchQuery("Wegmans Sharp Cheddar Cheese Thin Sliced", "categorizer\\pickledData\\sample.pickle", "scraper\\data\\sample.json"))
