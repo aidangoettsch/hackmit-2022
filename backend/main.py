@@ -43,75 +43,106 @@ print("Connected to InterSystems IRIS")
 app = flask.Flask(__name__)
 
 
-@app.route('/api/items/id', methods=['GET'])
-def get_id():
-    var = request.args.get("id")
-    sql = f"SELECT * FROM Items WHERE ID='{var}'"
+@app.route('/api/all_category_names', methods=['GET'])
+def get_all_category_names():
+    sql = f"SELECT DISTINCT Category FROM Items"
     cursor.execute(sql)
     rows = cursor.fetchall()
-    rows_parsed = []
+    categories = []
     for row in rows:
-        rows_parsed.append({
-            "id": row[0],
-            "name": row[1],
-            "quantity": row[2],
-            "brand": row[3],
-            "price": row[4]
-        })
-    return json.dumps(rows_parsed)
+        categories.append(row[0])
+    return json.dumps(categories)
 
 
-@app.route('/api/items/all', methods=['GET'])
-def get_all():
-    sql = "SELECT * FROM Items"
+@app.route('/api/category', methods=['GET'])
+def get_category():
+    key = request.args.get('key')
+    view = request.args.get('view', default=-1, type=int)
+    sql = f"SELECT * FROM Items WHERE Category = '{key}'"
     cursor.execute(sql)
-    rows = cursor.fetchall()
-    rows_parsed = []
+    rows = []
+    if view == -1:
+        rows = cursor.fetchall()
+    else:
+        rows = cursor.fetchmany(view)
+    processed_rows = []
     for row in rows:
-        rows_parsed.append({
+        processed_rows.append({
             "id": row[0],
             "name": row[1],
-            "quantity": row[2],
-            "brand": row[3],
-            "price": row[4]
+            "productId": row[2],
+            "brandId": row[3],
+            "brandName": row[4],
+            "size": row[5],
+            "imageUrl": row[6],
+            "priceString": row[7],
+            "category": row[8],
+            "sustainable": row[9]
         })
-    return json.dumps(rows_parsed)
+    return json.dumps(processed_rows)
 
 
-order = []
+@app.route('/api/search', methods=['GET'])
+def get_search():
+    key = request.args.get('key')
+    view = request.args.get('view', default=-1, type=int)
+    sql = f"SELECT * FROM Items WHERE Name LIKE '%{key}%'"
+    print(sql)
+    cursor.execute(sql)
+    rows = []
+    if view == -1:
+        rows = cursor.fetchall()
+    else:
+        rows = cursor.fetchmany(view)
+    processed_rows = []
+    for row in rows:
+        processed_rows.append({
+            "id": row[0],
+            "name": row[1],
+            "productId": row[2],
+            "brandId": row[3],
+            "brandName": row[4],
+            "size": row[5],
+            "imageUrl": row[6],
+            "priceString": row[7],
+            "category": row[8],
+            "sustainable": row[9]
+        })
+    return json.dumps(processed_rows)
 
 
-@app.route('/order', methods=['POST'])
-def create_order():
-    items = request.get_json()
-
-    order.append(items)
-
-    return json.dumps({
-        id: 0
-    })
+orders = []
 
 
-@app.route('/order/<id>/join', methods=['POST'])
-def get_order_join(id):
-    items = request.get_json()
-
-    order.append(items)
-
-    return json.dumps({
-        id: 0
-    })
+@app.route('/api/orders', methods=['GET'])
+def get_orders():
+    return json.dumps([{'time': order['time'], 'count': order['count']} for order in orders])
 
 
-@app.route('/order/<id>/status', methods=['GET'])
-def get_order_status(id):
-    return json.dumps(len(order) >= 2)
+@app.route('/api/orders', methods=['POST'])
+def post_orders():
+    data = request.get_json()
+    time = data['time']
+    items = data['items']
+
+    for i in range(len(orders)):
+        if orders[i]['time'] == time:
+            orders[i]['items'].append(items)
+            orders[i]['count'] += 1
+            break
+    else:
+        orders.append({
+            'time': time,
+            'items': [items],
+            'count': 1
+        })
+    return json.dumps("success")
 
 
 @app.route('/', defaults={'u_path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    return 'You want path: %s' % path
+    return 'You pinged path: %s' % path
 
 
 if __name__ == '__main__':
