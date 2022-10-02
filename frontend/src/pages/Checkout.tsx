@@ -32,6 +32,8 @@ import Map, { Marker } from "react-map-gl";
 import "../remove.css";
 import React from "react";
 import { useCart } from "react-use-cart";
+import { pushNewOrder } from "../util/getProductData";
+import { OrderItem } from "../types/product";
 
 interface Order {
   orderDay?: Date | null;
@@ -514,6 +516,22 @@ export default () => {
 
   const { isEmpty, items, totalUniqueItems, updateItemQuantity, removeItem } =
     useCart();
+
+  const genOrderFromCart = (): OrderItem[] => {
+    return items.map((i) => {
+      return {
+        id: i.id,
+        quantity: i.quantity!,
+      };
+    });
+  };
+
+  React.useEffect(() => {
+    if (active == 3) {
+      console.log("done");
+      pushNewOrder(genOrderFromCart());
+    }
+  }, [active]);
 
   const renderMap = () => {
     if (orderIdx === 0) {

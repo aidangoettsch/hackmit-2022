@@ -68,7 +68,9 @@ export const pushNewOrder = async (items: OrderItem[]) => {
   }
 };
 
-export const getOrderStatus = async (id: string): Promise<ExistingOrderType> => {
+export const getOrderStatus = async (
+  id: string
+): Promise<ExistingOrderType> => {
   // try {
   //   return {
   //
@@ -92,9 +94,9 @@ export const getOrderStatus = async (id: string): Promise<ExistingOrderType> => 
         location: "bread",
         host: false,
       },
-    ]
+    ],
   };
-}
+};
 
 /**
  *
