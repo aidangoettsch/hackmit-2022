@@ -12,7 +12,10 @@ import { useMediaQuery } from "@mantine/hooks";
 import { ProductType } from "../types/product";
 import { useParams } from "react-router-dom";
 import React from "react";
-import { getData } from "../util/getProductData";
+import {
+  getCategoryItemsByCategoryName,
+  getData,
+} from "../util/getProductData";
 
 export default function CardsCarousel() {
   let params = useParams();
@@ -20,13 +23,20 @@ export default function CardsCarousel() {
   const [products, setProducts] = React.useState<ProductType[]>([]);
   const [loading, setLoading] = React.useState(true);
   const theme = useMantineTheme();
-  const slides = products.map((item, index) => <Card {...item} />);
+  const slides = products.map((item, index) => (
+    <Box key={item.id}>
+      <Card {...item} />
+    </Box>
+  ));
 
   React.useEffect(() => {
-    getData().then((data: ProductType[]) => {
-      setProducts(data as ProductType[]);
-      setLoading(false);
-    });
+    getCategoryItemsByCategoryName(category!, 50).then(
+      (data: ProductType[]) => {
+        console.log("grabbed data");
+        setProducts(data as ProductType[]);
+        setLoading(false);
+      }
+    );
   }, []);
 
   return (

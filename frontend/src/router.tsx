@@ -44,12 +44,6 @@ function App() {
           <Route path="category/:category" element={<CategorySearch />} />
           <Route path="item/:item" element={<CategorySearch />} />
         </Route>
-        {/* <Route path="/shopping" element={<Shopping />} />
-        <Route
-          path="/shopping/category/:category"
-          element={<CategorySearch />}
-        />
-        <Route path="/shopping/search/:search" element={<CategorySearch />} /> */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />

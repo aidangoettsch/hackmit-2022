@@ -1,87 +1,335 @@
-// @ts-nocheck
-
-import {AppShell, createStyles, Paper, Text, NumberInput, TextInput, Button} from "@mantine/core";
-import {useEffect, useState} from "react";
-import {MapContainer, TileLayer, useMap} from "react-leaflet";
+import {
+	AppShell,
+	createStyles,
+	Paper,
+	Text,
+	TextInput,
+	Button,
+	Stepper, Group, Stack, Divider
+} from "@mantine/core";
+import {FC, useState, FocusEvent} from "react";
 import axios from "axios";
+import {IconCreditCard, IconMapPin, IconClock, IconCurrencyDollar, IconPlus} from "@tabler/icons"
+import {DatePicker, TimeRangeInput} from "@mantine/dates";
 
-const useStyles = createStyles((theme) => ({
-	card: {
-		margin: "auto",
-		padding: "1rem",
-		width: "400px",
-		justifyContent: "center",
-		display: "flex",
-		flexDirection: "column",
-	},
-	cardItem: {
-		margin: "1rem",
-	},
-	button: {
-		margin: "1rem",
-	},
+interface Order {
+	orderDay?: Date | null,
+	windowStart?: Date | null,
+	windowEnd?: Date | null,
+	fee: number,
+}
+
+const useLocationStyles = createStyles((theme) => ({
 	map: {
 		position: "relative",
 	},
-	mapContainer: {
-		zIndex: 10,
+}))
+
+const LocationStep: FC<{
+	active: boolean,
+	location: [number, number] | undefined,
+	locationString: string,
+	setLocationString: (location: string) => void,
+	nextStep: () => void,
+}> = ({active, location, locationString, setLocationString, nextStep}) => {
+	const {classes} = useLocationStyles()
+
+	if (!active) {
+		return <Group position={"left"}>
+			<IconMapPin style={{
+				marginRight: "-8px",
+			}}/>
+			<Text sx={{
+				margin: 0
+			}}>{locationString.length > 23 ? locationString.slice(20) + "..." : locationString}</Text>
+		</Group>
 	}
-}));
 
-const ChangeMapView = ({location}) => {
-	const map = useMap()
+	return <Stack sx={{
+	}}>
+		<TextInput label="Address" placeholder="1234 Main St" required withAsterisk p={2} onChange={(e: FocusEvent<HTMLInputElement>) =>
+			setLocationString(e.target.value)
+		}/>
+		<Group position="right">
+			<Button onClick={nextStep} disabled={locationString.length === 0}>Next</Button>
+		</Group>
+	</Stack>
+}
 
-	useEffect(() => {
-		map.flyTo(location)
-	}, [location])
+const useOrderStyles = createStyles((theme) => ({
+	orderCard: {
+		margin: "auto",
+		padding: "0.5rem",
+		width: "100%",
+		borderWidth: "1px",
+		borderStyle: "solid",
+		borderColor: "solid",
+		borderRadius: theme.radius.md,
+		justifyContent: "start",
+		display: "flex",
+		flexDirection: "column",
+		cursor: "pointer",
+	},
+	orderActive: {
+		borderColor: theme.primaryColor,
+	}
+}))
 
-	return null
+const OrderStep: FC<{
+	active: boolean,
+	orderIdx: number,
+	setOrderIdx: (idx: number) => void,
+	order: Order,
+	setOrder: (order: Order) => void,
+	nextStep: () => void,
+}> = ({active, orderIdx, setOrderIdx, order, setOrder, nextStep}) => {
+	const {classes} = useOrderStyles()
+	if (!active) {
+		const dayString = order.orderDay?.toLocaleDateString("en-US", {
+			dateStyle: "full"
+		}) || ""
+		const startTime = order.windowStart?.toLocaleTimeString() || ""
+		const endTime = order.windowEnd?.toLocaleTimeString() || ""
+
+		return <Group position={"left"} align={"start"}>
+			<IconClock style={{
+				marginRight: "-8px",
+			}}/>
+			<Stack justify={"start"} spacing={0}>
+				<Text size={"md"}>{dayString}</Text>
+				<Text size={"md"}>{startTime} to {endTime}</Text>
+			</Stack>
+		</Group>
+	}
+
+	return <Stack>
+		<Paper className={classes.orderCard + ` ${orderIdx === 0 ? classes.orderActive : ''}`} onClick={() => {
+			setOrderIdx(0)
+			setOrder({
+				...order,
+				fee: 0.99,
+			})
+		}}>
+			<Text size={"sm"} italic={true}>Cheapest, closest, lowest emissions</Text>
+			<Group align={"start"}>
+				<IconClock style={{
+					marginRight: "-8px",
+				}}/>
+				<Stack justify={"start"} spacing={0}>
+					<Text size={"md"}>Sunday, October 2, 2022</Text>
+					<Text size={"md"}>12 PM to 2 PM</Text>
+				</Stack>
+			</Group>
+			<Group>
+				<IconMapPin style={{
+					marginRight: "-8px",
+				}}/>
+				<Text size={"md"}>1 minute walk</Text>
+			</Group>
+			<Group>
+				<IconCurrencyDollar style={{
+					marginRight: "-8px",
+				}}/>
+				<Text size={"md"}>$0.99 or less</Text>
+			</Group>
+		</Paper>
+		<Paper className={classes.orderCard + ` ${orderIdx === 1 ? classes.orderActive : ''}`} onClick={() => {
+			setOrderIdx(1)
+			setOrder({
+				...order,
+				fee: 2.99,
+			})
+		}}>
+			<Text size={"sm"} italic={true}>Fastest delivery</Text>
+			<Group align={"start"}>
+				<IconClock style={{
+					marginRight: "-8px",
+				}}/>
+				<Stack justify={"start"} spacing={0}>
+					<Text size={"md"}>Sunday, October 2, 2022</Text>
+					<Text size={"md"}>5 AM to 12 PM</Text>
+				</Stack>
+			</Group>
+			<Group>
+				<IconMapPin style={{
+					marginRight: "-8px",
+				}}/>
+				<Text size={"md"}>5 minute walk</Text>
+			</Group>
+			<Group>
+				<IconCurrencyDollar style={{
+					marginRight: "-8px",
+				}}/>
+				<Text size={"md"}>$2.99 or less</Text>
+			</Group>
+		</Paper>
+		<Paper className={classes.orderCard + ` ${orderIdx === -1 ? classes.orderActive : ''}`}  onClick={() => {
+			setOrderIdx(-1)
+			setOrder({
+				...order,
+				fee: 3.99,
+			})
+		}}>
+			<Text size={"sm"} italic={true}>None of these times work?</Text>
+			<Group>
+				<IconPlus style={{
+					marginRight: "-8px",
+				}}/>
+				<Text size={"md"}>Add availability to get matched automatically!</Text>
+			</Group>
+			<Group>
+				<IconCurrencyDollar style={{
+					marginRight: "-8px",
+				}}/>
+				<Text size={"md"}>$3.99 or less</Text>
+			</Group>
+		</Paper>
+
+		{orderIdx === -1 && <Stack>
+			<DatePicker placeholder="Pick date" label="Order time" value={order.orderDay} onChange={(d) => {
+				setOrder({
+					...order,
+					orderDay: d,
+				})
+			}} />
+			<TimeRangeInput format="12" value={[order.windowStart || null, order.windowEnd || null]} onChange={([start, end]) => {
+				setOrder({
+				...order,
+				windowStart: start,
+				windowEnd: end,
+			})}} clearable />
+		</Stack>}
+
+		<Group position="right">
+			<Button onClick={() => {
+				if (orderIdx === 0) {
+					const start = new Date("2022-10-02T12:00-04:00")
+					const end = new Date("2022-10-02T16:00-04:00")
+					setOrder({
+						...order,
+						orderDay: start,
+						windowStart: start,
+						windowEnd: end,
+					})
+				} else if (orderIdx === 1) {
+					const start = new Date("2022-10-02T05:00-04:00")
+					const end = new Date("2022-10-02T12:00-04:00")
+					setOrder({
+						...order,
+						orderDay: start,
+						windowStart: start,
+						windowEnd: end,
+					})
+				}
+				nextStep()
+			}} disabled={orderIdx === -1 && (!order.windowStart || !order.windowEnd)}>Checkout</Button>
+		</Group>
+	</Stack>
 }
 
 export default () => {
-	const {classes} = useStyles();
-	const [location, setLocation] = useState(null);
+	const [active, setActive] = useState(1);
+	const [location, setLocation] = useState<[number, number] | undefined>(undefined);
+	const [locationString, setLocationString] = useState("");
+	const [orderIdx, setOrderIdx] = useState(0)
+	const [order, setOrder] = useState<Order>({
+		orderDay: new Date(),
+		fee: 2.99,
+	})
 
-	const updateLocation = async e => {
-		const locationAddress = e.target.value
-		if (locationAddress === "") {
-			setLocation([])
+	const updateLocation = async (newLocation: string) => {
+		setLocationString(newLocation)
+		if (newLocation === "") {
+			setLocation(undefined)
 			return
 		}
 		try {
-			const resp = await axios.get(`https://nominatim.openstreetmap.org/search?q=${locationAddress}&format=json`)
+			const resp = await axios.get(`https://nominatim.openstreetmap.org/search?q=${newLocation}&format=json`)
 			const {lat, lon} = resp.data[0]
 			setLocation([lat, lon])
 		} catch (e) {
 
 		}
 	}
+	const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
+
+	const orderSubtotal = 26.75
+	const orderTax = orderSubtotal * 0.06
+	const total = orderSubtotal + orderTax + order.fee
 
 	return <AppShell>
-		<Paper radius="md" m="auto" shadow="md" className={classes.card}>
-			<Text size="xl" className={classes.cardItem}>Checkout</Text>
-			<NumberInput label="Credit Card Information" placeholder="0000000000000000" maxLength={16} required withAsterisk
-									 className={classes.cardItem}/>
-			<TextInput label="Address" placeholder="1234 Main St" required withAsterisk p={2} className={classes.cardItem} onBlur={updateLocation}/>
-			<Button className={classes.button}>View Location</Button>
-			{
-				location === null ?
-					<></> :
-					<div className={classes.mapContainer}>
-						<MapContainer
-							center={location}
-							zoom={15}
-							scrollWheelZoom={false}
-							className={classes.map}
-						>
-							<ChangeMapView location={location}/>
-							<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
-						</MapContainer>
-					</div>
-			}
-			<Button className={classes.button}>
-				Submit
-			</Button>
-		</Paper>
+		<Group position="center" mt="xl" spacing={64} align={"start"}>
+			<Stack>
+				<Stepper active={active} orientation={"vertical"} onStepClick={setActive} breakpoint="md" styles={(theme) => ({
+					root: {
+						width: "500px",
+					},
+					step: {
+						width: "500px",
+					},
+					stepBody: {
+						width: "100%"
+					},
+					stepDescription: {
+						width: "100%"
+					},
+				})}>
+					<Stepper.Step label="Payment" description={active !== 0 ? <Group position={"left"}>
+						<IconCreditCard style={{
+							marginRight: "-8px",
+						}}/>
+						<Text sx={{
+							margin: 0
+						}}>•••• 9999</Text>
+					</Group> : null} allowStepSelect={false}/>
+					<Stepper.Step label="Location" description={<LocationStep
+						active={active === 1}
+						location={location}
+						locationString={locationString}
+						setLocationString={updateLocation}
+						nextStep={nextStep}
+					/>} allowStepSelect={active === 2}/>
+					<Stepper.Step label="Order" description={active < 2 ? "Find shared orders near you, or start a new group" : <OrderStep
+						active={active === 2}
+						orderIdx={orderIdx}
+						setOrderIdx={setOrderIdx}
+						order={order}
+						setOrder={setOrder}
+						nextStep={nextStep}
+					/>} allowStepSelect={false}/>
+					<Stepper.Completed>
+						<Text size={"lg"}>Order complete! We'll let you know when it's time to meet up with your group!</Text>
+					</Stepper.Completed>
+				</Stepper>
+			</Stack>
+			<Paper sx={theme => ({
+				padding: "0.5rem",
+				width: "300px",
+				borderWidth: "1px",
+				borderStyle: "solid",
+				borderColor: "solid",
+				borderRadius: theme.radius.md,
+			})}>
+				<Stack spacing={2}>
+					<Group position={"apart"}>
+						<Text weight={"bold"}>Subtotal</Text>
+						<Text weight={"bold"}>${orderSubtotal.toFixed(2)}</Text>
+					</Group>
+					<Group position={"apart"}>
+						<Text>Taxes</Text>
+						<Text>${orderTax.toFixed(2)}</Text>
+					</Group>
+					<Group position={"apart"}>
+						<Text weight={"bold"}>Delivery Fee</Text>
+						<Text weight={"bold"}>${order.fee.toFixed(2)}</Text>
+					</Group>
+					<Divider my="sm" color={"light"}/>
+					<Group position={"apart"}>
+						<Text weight={"bold"}>Total</Text>
+						<Text weight={"bold"}>${total.toFixed(2)}</Text>
+					</Group>
+				</Stack>
+			</Paper>
+		</Group>
 	</AppShell>;
 }
