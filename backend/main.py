@@ -124,18 +124,20 @@ def get_similar():
         print(sql)
         cursor.execute(sql)
         row = cursor.fetchone()
-        p.append({
-            "id": row[0],
-            "name": row[1],
-            "productId": row[2],
-            "brandId": row[3],
-            "brandName": row[4],
-            "size": row[5],
-            "imageUrl": row[6],
-            "priceString": row[7],
-            "category": row[8],
-            "sustainable": row[9]
-        })
+        print(row[9])
+        if row[9] == "good":
+            p.append({
+                "id": row[0],
+                "name": row[1],
+                "productId": row[2],
+                "brandId": row[3],
+                "brandName": row[4],
+                "size": row[5],
+                "imageUrl": row[6],
+                "priceString": row[7],
+                "category": row[8],
+                "sustainable": row[9]
+            })
     return json.dumps(p)
 
 

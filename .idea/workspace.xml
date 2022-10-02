@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5c0a2cb-1910-4bd9-8255-96f6f615c73d" name="Changes" comment="web3 moment">
-      <change afterPath="$PROJECT_DIR$/frontend/src/util/departments.ts" afterDir="false" />
+    <list default="true" id="d5c0a2cb-1910-4bd9-8255-96f6f615c73d" name="Changes" comment="sus recommendations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/OrderStatus.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/OrderStatus.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +16,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
-        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -35,7 +31,13 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="web3" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="mu5v78qm" />
@@ -49,24 +51,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "ts.external.directory.path": "/Users/aidan/Code/hackmit-2022/frontend/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/vincetiu/Documents/github/hackmit-2022/frontend/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="hackmit-2022" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -89,9 +92,21 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="$USER_HOME$/.asdf/shims/node" />
+      <package-manager value="npm" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -105,7 +120,17 @@
       <updated>1664693084333</updated>
       <workItem from="1664693087044" duration="638000" />
       <workItem from="1664705906984" duration="893000" />
+      <workItem from="1664711122517" duration="674000" />
+      <workItem from="1664712323762" duration="969000" />
     </task>
+    <task id="LOCAL-00001" summary="sus recommendations">
+      <created>1664712657807</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1664712657807</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,9 +149,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="web3 moment" />
-    <option name="LAST_COMMIT_MESSAGE" value="web3 moment" />
+    <MESSAGE value="web3 moment 2" />
+    <MESSAGE value="sus recommendations" />
+    <option name="LAST_COMMIT_MESSAGE" value="sus recommendations" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/hackmit_2022$main.coverage" NAME="main Coverage Results" MODIFIED="1664667654253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/hackmit_2022$main.coverage" NAME="main Coverage Results" MODIFIED="1664712597423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
   </component>
 </project>
