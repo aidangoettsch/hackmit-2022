@@ -14,6 +14,7 @@ import Checkout from "./pages/Checkout";
 import CategorySearch from "./components/CategorySearch";
 import HomeShopping from "./components/HomeShopping";
 import ItemSearch from "./components/ItemSearch";
+import CartWrapper from "./components/CartWrapper";
 
 function App() {
   const location = useLocation();
@@ -47,7 +48,11 @@ function App() {
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/cart" element={<Cart />} />
+
+        <Route path="/cart" element={<CartWrapper />}>
+          <Route index element={<Cart />} />
+          <Route path="checkout" element={<Checkout />} />
+        </Route>
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFoundTitle />} />
         {renderFooter()}
