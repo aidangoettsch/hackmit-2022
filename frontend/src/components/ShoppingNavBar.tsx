@@ -12,6 +12,7 @@ import {
   Title,
   Avatar,
   Box,
+  useMantineTheme,
 } from "@mantine/core";
 import {
   IconBulb,
@@ -26,7 +27,7 @@ import {
   IconMedal,
 } from "@tabler/icons";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useCart } from "react-use-cart";
 // import { UserButton } from '../UserButton/UserButton';
 import { name } from "../util/constants";
@@ -165,14 +166,26 @@ const useStyles = createStyles((theme) => ({
         theme.colorScheme === "dark"
           ? theme.colors.dark[6]
           : theme.colors.gray[0],
-      color: theme.colorScheme === "dark" ? theme.white : theme.black,
+      color:
+        theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6],
     },
+  },
+  hover: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
+    color:
+      theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6],
   },
 }));
 
 export default function NavbarSearch() {
+  let params = useParams();
+  const category = params.category;
   const { classes } = useStyles();
   const { totalItems } = useCart();
+  const theme = useMantineTheme();
 
   const [categories, setCategories] = React.useState<string[]>([]);
 
@@ -204,7 +217,12 @@ export default function NavbarSearch() {
 
   const collectionLinks = categories.map((collection) => (
     <Link to={`category/${collection}`} style={{ textDecoration: "none" }}>
-      <a key={collection} className={classes.collectionLink}>
+      <a
+        key={collection}
+        className={`${classes.collectionLink} ${
+          category == collection ? classes.hover : ""
+        }`}
+      >
         {collection}
       </a>
     </Link>
