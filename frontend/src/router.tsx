@@ -13,6 +13,8 @@ import NotFoundTitle from "./pages/404";
 import Checkout from "./pages/Checkout";
 import CategorySearch from "./components/CategorySearch";
 import HomeShopping from "./components/HomeShopping";
+import ItemSearch from "./components/ItemSearch";
+import CartWrapper from "./components/CartWrapper";
 
 function App() {
   const location = useLocation();
@@ -42,17 +44,15 @@ function App() {
         <Route path="/shopping" element={<Shopping />}>
           <Route index element={<HomeShopping />} />
           <Route path="category/:category" element={<CategorySearch />} />
-          <Route path="item/:item" element={<CategorySearch />} />
+          <Route path="item/:item" element={<ItemSearch />} />
         </Route>
-        {/* <Route path="/shopping" element={<Shopping />} />
-        <Route
-          path="/shopping/category/:category"
-          element={<CategorySearch />}
-        />
-        <Route path="/shopping/search/:search" element={<CategorySearch />} /> */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/cart" element={<Cart />} />
+
+        <Route path="/cart" element={<CartWrapper />}>
+          <Route index element={<Cart />} />
+          <Route path="checkout" element={<Checkout />} />
+        </Route>
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFoundTitle />} />
         {renderFooter()}

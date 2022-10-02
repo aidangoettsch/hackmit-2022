@@ -45,3 +45,10 @@ later todo:
 
 - you've been selected as host, arrive at your location at x time
 - x is your host, you will be arriving at x time, here's when you need to leave to pick up your order
+
+- get by category
+
+- google maps api
+
+- back button on category
+- back button on item

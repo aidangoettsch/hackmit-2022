@@ -9,7 +9,7 @@ import os
 
 def tokenize(string, englishDict):
     
-    with open('categorizer/words.txt', 'r') as f:
+    with open('categorizer\\words.txt', 'r') as f:
         for word in f:
             englishDict.add(word.lower().strip())
 
@@ -27,7 +27,7 @@ def getVocab(file):
     vocab = {}
     dictionary_en = set()
 
-    with open('categorizer/words.txt', 'r') as f:
+    with open('categorizer\\words.txt', 'r') as f:
         for word in f:
             dictionary_en.add(word.lower().strip())
 
@@ -44,6 +44,8 @@ def getVocab(file):
             vocab[word] += 1
         
         return res
+
+    print(file)
 
     with open(file) as data_file:    
         data = json.load(data_file)
@@ -110,6 +112,20 @@ def findClosestK(dataset, vector, k):
     distances.sort(key=lambda x: x[1])
     return distances[:k]
 
+def alData():
+    for subdir, dirs, files in os.walk('scraper/data'):
+        for file in files:
+            jsonPath = os.path.join(subdir, file)
+            dataPath = 'categorizer\\pickledData\\' + file.split("\\")[-1] 
+            categoryName = str(dataPath.split(".")[0])
+            dataPath = categoryName + ".pickle"
+            
+            filePath = subdir + os.path.sep + file
+            if filePath.endswith(".json"):
+                if not os.path.exists(dataPath):
+                    packData(jsonPath, dataPath)
+                
+
 # dictionary_en = set()
 
 # with open('words.txt', 'r') as f:
@@ -126,33 +142,36 @@ def findClosestK(dataset, vector, k):
 
 if __name__ == "__main__":
 
-    file = input("enter path of json file: ")
+    # file = input("enter path of json file: ")
 
-    dataPath = 'categorizer/pickledData/' + file.split("/")[-1] 
-    categoryName = str(dataPath.split(".")[0])
-    dataPath = categoryName + ".pickle"
+    # dataPath = 'categorizer/pickledData/' + file.split("/")[-1] 
+    # categoryName = str(dataPath.split(".")[0])
+    # dataPath = categoryName + ".pickle"
 
-    print(dataPath)
+    # print(dataPath)
 
-    if not os.path.exists(dataPath):
-        dataset = packData(file, dataPath)
-    else:
-        dataset = pickle.load(open(dataPath, "rb"))
+    # if not os.path.exists(dataPath):
+    #     dataset = packData(file, dataPath)
+    # else:
+    #     dataset = pickle.load(open(dataPath, "rb"))
     
     dictionary_en = set()
 
-    with open('categorizer/words.txt', 'r') as f:
+    with open('categorizer\\words.txt', 'r') as f:
         for word in f:
             dictionary_en.add(word.lower().strip())
 
-    vocab = getVocab(file)
-    #search = input("enter search term: ")
-    search = "Wegmans Sharp Cheddar Cheese Thin Sliced"
-    tokens = tokenize(search, dictionary_en)
-    vector = bag(tokens, vocab)
-    #v1 = bag(tokenize("Wegmans Sharp Cheddar Cheese Thin Sliced", dictionary_en), vocab)
+    # vocab = getVocab(file)
+    # #search = input("enter search term: ")
+    # search = "Wegmans Sharp Cheddar Cheese Thin Sliced"
+    # tokens = tokenize(search, dictionary_en)
+    # vector = bag(tokens, vocab)
+    # #v1 = bag(tokenize("Wegmans Sharp Cheddar Cheese Thin Sliced", dictionary_en), vocab)
 
-    print(findClosestK(dataset, vector, 10))
+    # print(findClosestK(dataset, vector, 10))
 
     #scraper/data/sample.json
     #Wegmans Sharp Cheddar Cheese Thin Sliced
+
+    #alData(file, dataPath)
+    alData()

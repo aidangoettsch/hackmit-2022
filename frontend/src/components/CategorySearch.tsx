@@ -10,23 +10,35 @@ import {
 import Card from "../components/ItemCard";
 import { useMediaQuery } from "@mantine/hooks";
 import { ProductType } from "../types/product";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
-import { getData } from "../util/getProductData";
+import {
+  getCategoryItemsByCategoryName,
+  getData,
+} from "../util/getProductData";
+import { IconArrowLeft } from "@tabler/icons";
 
 export default function CardsCarousel() {
   let params = useParams();
+  const navigate = useNavigate();
   const category = params.category;
   const [products, setProducts] = React.useState<ProductType[]>([]);
   const [loading, setLoading] = React.useState(true);
   const theme = useMantineTheme();
-  const slides = products.map((item, index) => <Card {...item} />);
+  const slides = products.map((item, index) => (
+    <Box key={item.id}>
+      <Card {...item} />
+    </Box>
+  ));
 
   React.useEffect(() => {
-    getData().then((data: ProductType[]) => {
-      setProducts(data as ProductType[]);
-      setLoading(false);
-    });
+    getCategoryItemsByCategoryName(category!, 50).then(
+      (data: ProductType[]) => {
+        console.log("grabbed data");
+        setProducts(data as ProductType[]);
+        setLoading(false);
+      }
+    );
   }, []);
 
   return (
@@ -38,11 +50,21 @@ export default function CardsCarousel() {
       ) : (
         <Box>
           <Title
-            sx={{ fontFamily: `Greycliff CF, ${theme.fontFamily}` }}
+            sx={{
+              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              display: "flex",
+              alignItems: "center",
+            }}
             mb={"md"}
             size="25px"
           >
-            Items under {category}
+            <IconArrowLeft
+              onClick={() => {
+                navigate("/shopping");
+              }}
+              style={{ cursor: "pointer", marginRight: "10px" }}
+            />
+            Items under "{category}"
           </Title>
           <SimpleGrid cols={6}>{slides}</SimpleGrid>
         </Box>
